@@ -20,10 +20,22 @@
 @media(max-width:767px){body{padding-bottom:66px}.float{display:inline-flex}.hero{padding:25px 0 17px}.hero p{font-size:13px}.guide-list,.cta{width:calc(100% - 26px)}.guide-card{margin-bottom:21px}.guide-card img{border-radius:18px}.cta{padding:24px 17px;margin-bottom:30px}}
 @media(max-width:390px){.topbar-inner{width:calc(100% - 22px)}.brand strong{font-size:14px}.back{padding:0 11px;font-size:11px}.hero,.guide-list,.cta{width:calc(100% - 24px)}.guide-meta h2{font-size:13px}}
 @media(max-width:340px){.brand small{display:none}.hero h1{font-size:27px}.guide-list,.cta{width:calc(100% - 20px)}.float{right:10px;bottom:calc(10px + env(safe-area-inset-bottom));min-height:46px;font-size:12px}}
+
+.brand-logo{display:flex;align-items:center;width:clamp(240px,28vw,360px);height:62px}
+.brand-logo img{width:100%;height:100%;object-fit:contain;object-position:left center;display:block}
+@media(max-width:767px){.brand-logo{width:min(58vw,235px);height:54px}}
+@media(max-width:390px){.brand-logo{width:min(55vw,205px);height:50px}}
+
+
+/* NIGHTON guide header logo v2 */
+.brand-logo{width:clamp(280px,30vw,390px);height:64px}
+@media(max-width:767px){.brand-logo{width:min(58vw,238px);height:56px}}
+@media(max-width:390px){.brand-logo{width:min(55vw,210px);height:52px}}
+
 </style>
 </head>
 <body>
-<header class="topbar"><div class="topbar-inner"><a class="brand" href="index.html"><strong>NIGHTON</strong><small>PREMIUM RECRUIT</small></a><a class="back" href="index.html">← 메인으로 돌아가기</a></div></header>
+<header class="topbar"><div class="topbar-inner"><a class="brand brand-logo" href="index.html"><img src="images/nighton-premium-logo.png" alt="NIGHTON PREMIUM RECRUIT"></a><a class="back" href="index.html">← 메인으로 돌아가기</a></div></header>
 <main>
 <section class="hero"><div class="eyebrow">NIGHTON BEGINNER GUIDE</div><h1>초보자 안내</h1><p>처음이라 궁금한 내용을 하나씩 확인해보세요.</p><div class="note">근무조건을 충분히 확인한 뒤 결정하실 수 있습니다.</div></section>
 <section class="guide-list">
