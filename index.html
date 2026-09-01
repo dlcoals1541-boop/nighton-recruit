@@ -572,5 +572,43 @@ function sendMessage(){
 }
 document.getElementById('msg').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage()});
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SUPABASE_URL = 'https://engfrvqbsgqqdywpmnjf.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_r3aqk4JW-kIBByl3x933_Q_XciIJ9Z3';
+  const allowedSources = new Set(['job_a','job_b','job_c','job_d','job_e','job_f','job_g','instagram','direct']);
+  const params = new URLSearchParams(location.search);
+  let source = params.get('src');
+  if (!allowedSources.has(source)) source = localStorage.getItem('nighton_source') || 'direct';
+  if (!allowedSources.has(source)) source = 'direct';
+  localStorage.setItem('nighton_source', source);
+
+  let visitorId = localStorage.getItem('nighton_visitor_id');
+  if (!visitorId) {
+    visitorId = 'N-' + crypto.randomUUID().replace(/-/g,'').slice(0,8).toUpperCase();
+    localStorage.setItem('nighton_visitor_id', visitorId);
+  }
+
+  window.NIGHTON_TRACKING = { visitorId, source };
+  const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  window.NIGHTON_SUPABASE = client;
+
+  const visitKey = 'nighton_visit_' + location.pathname + '_' + source;
+  if (!sessionStorage.getItem(visitKey)) {
+    client.from('visits').insert({
+      visitor_id: visitorId,
+      source: source,
+      referrer: document.referrer || null,
+      landing_page: location.pathname + location.search
+    }).then(({error}) => {
+      if (error) console.warn('NIGHTON visit tracking error:', error.message);
+      else sessionStorage.setItem(visitKey, '1');
+    });
+  }
+})();
+</script>
+
 </body>
 </html>

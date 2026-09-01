@@ -63,5 +63,13 @@
 </main>
 <a class="float" href="index.html#chat">💬 익명 문의</a>
 <footer>NIGHTON PREMIUM RECRUIT · BEGINNER GUIDE</footer>
+
+<script>
+(function(){
+  const src = new URLSearchParams(location.search).get('src');
+  if(src) localStorage.setItem('nighton_source', src);
+})();
+</script>
+
 </body>
 </html>
