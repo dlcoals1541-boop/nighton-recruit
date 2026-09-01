@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NIGHTON PREMIUM RECRUIT</title>
+<meta name="description" content="NIGHTON Premium Recruit">
+<style>
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#f8f2ea; --paper:#fffaf4; --ink:#1b120d; --brown:#2a1912; --brown2:#3a2419;
+  --gold:#d9a453; --gold2:#f1cf8d; --cream:#f6eadc; --muted:#78695e; --line:#eadbcc;
+  --shadow:0 20px 55px rgba(62,37,22,.14)
+}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:-.03em}
+img{display:block;max-width:100%}
+a{text-decoration:none;color:inherit}
+.wrap{width:min(1180px,calc(100% - 32px));margin:auto}
+header{position:sticky;top:0;z-index:30;background:rgba(25,16,12,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.brand{color:#fff;font-weight:950;letter-spacing:.12em;font-size:19px}
+.brand small{display:block;color:#d9c6b5;font-size:9px;letter-spacing:.20em;margin-top:2px}
+.navlinks{display:flex;align-items:center;gap:22px;color:#eaded5;font-size:13px;font-weight:800}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:14px;padding:14px 19px;font-weight:900;cursor:pointer}
+.gold{background:linear-gradient(135deg,var(--gold2),var(--gold));color:#25160d;box-shadow:0 10px 28px rgba(217,164,83,.22)}
+.outline{border:1px solid rgba(255,255,255,.35);color:#fff}
+.hero{background:linear-gradient(135deg,#1d120d,#352118);color:#fff;overflow:hidden}
+.hero-grid{min-height:650px;display:grid;grid-template-columns:.92fr 1.08fr;align-items:center;gap:36px}
+.eyebrow{color:#f0c97f;font-family:Georgia,serif;font-style:italic;font-size:22px}
+.hero h1{font-size:62px;line-height:1.06;margin:15px 0 18px;letter-spacing:-.055em}
+.hero h1 span{color:#f0c67b}
+.hero p{font-size:18px;line-height:1.75;color:#eaded4;max-width:580px}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero-photo{height:650px;position:relative;align-self:end;overflow:hidden;border-radius:34px 34px 0 0}
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:74% center}
+.hero-photo:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#2a1811 0%,rgba(42,24,17,.35) 17%,transparent 42%)}
+section{padding:62px 0}
+.section-title{text-align:center;margin:0 0 12px;font-size:36px}
+.section-sub{text-align:center;color:var(--muted);margin:0 auto 30px;max-width:720px;line-height:1.7}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;box-shadow:var(--shadow)}
+.card-image{height:470px;background:#ddd;overflow:hidden}
+.card-image img{width:100%;height:100%;object-fit:cover}
+.card.beginner .card-image img{object-position:center 18%}
+.card.conditions .card-image{height:560px}
+.card.conditions .card-image img{object-position:center 15%;object-fit:contain;background:#1d120e}
+.card-copy{padding:25px}
+.pill{display:inline-flex;border-radius:999px;padding:7px 11px;background:#f4e5d4;color:#714b2f;font-size:12px;font-weight:900}
+.card h3{font-size:30px;margin:12px 0 9px}
+.card p{margin:0;color:var(--muted);line-height:1.7}
+.benefits{display:grid;grid-template-columns:repeat(6,1fr);background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+.benefit{padding:25px 12px;text-align:center;border-right:1px solid var(--line)}
+.benefit:last-child{border-right:0}
+.benefit i{font-style:normal;font-size:29px}
+.benefit b{display:block;margin:10px 0 4px}
+.benefit span{font-size:12px;color:var(--muted)}
+.chat-wrap{background:#21140f;border-radius:28px;overflow:hidden;box-shadow:var(--shadow);display:grid;grid-template-columns:.9fr 1.1fr}
+.chat-photo{min-height:520px;overflow:hidden}
+.chat-photo img{width:100%;height:100%;object-fit:cover;object-position:center 25%}
+.chat-ui{padding:36px;color:#fff;display:flex;flex-direction:column;justify-content:center}
+.chat-ui h2{font-size:39px;margin:0 0 10px}
+.chat-ui>p{color:#d7c9be;line-height:1.7}
+.window{height:245px;overflow:auto;background:#120c09;border:1px solid #463127;border-radius:18px;padding:16px;margin:20px 0}
+.bubble{display:table;max-width:84%;padding:11px 13px;background:#33231b;border-radius:14px;margin-bottom:9px;font-size:14px;line-height:1.5}
+.bubble.me{margin-left:auto;background:#d8a45b;color:#21130c}
+.input{display:flex;gap:8px}
+.input input{flex:1;min-width:0;border:1px solid #563d31;background:#17100c;color:#fff;border-radius:13px;padding:0 14px;font:inherit}
+.consult{position:relative;min-height:350px;border-radius:27px;overflow:hidden;box-shadow:var(--shadow)}
+.consult img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
+.consult:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(57,36,24,.70) 0%,rgba(57,36,24,.25) 48%,transparent 73%)}
+.consult-copy{position:relative;z-index:2;padding:62px 55px;color:#fff;width:min(590px,62%)}
+.consult-copy h2{font-size:40px;margin:0 0 12px}
+.consult-copy p{color:#f0e5dc;line-height:1.7}
+footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
+@media(max-width:900px){
+  .navlinks a:not(.nav-cta){display:none}
+  .hero-grid{grid-template-columns:1fr;min-height:auto;padding-top:50px;gap:16px}
+  .hero h1{font-size:49px}
+  .hero-photo{height:560px}
+  .hero-photo img{object-position:72% center}
+  .cards{grid-template-columns:1fr}
+  .benefits{grid-template-columns:repeat(3,1fr)}
+  .benefit:nth-child(3){border-right:0}
+  .benefit{border-bottom:1px solid var(--line)}
+  .chat-wrap{grid-template-columns:1fr}
+  .chat-photo{min-height:420px}
+  .consult-copy{width:70%}
+}
+@media(max-width:560px){
+  .wrap{width:calc(100% - 22px)}
+  nav{height:66px}.brand{font-size:16px}.nav-cta{padding:11px 13px;font-size:12px}
+  section{padding:46px 0}
+  .hero-grid{padding-top:38px}
+  .hero h1{font-size:40px}
+  .hero p{font-size:15px}
+  .hero-photo{height:450px;border-radius:24px 24px 0 0}
+  .hero-photo img{object-position:69% center}
+  .section-title{font-size:29px}
+  .card-image{height:390px}
+  .card.beginner .card-image img{object-position:center 12%}
+  .card.conditions .card-image{height:520px}
+  .card.conditions .card-image img{object-position:center 10%}
+  .card h3{font-size:25px}
+  .benefits{grid-template-columns:1fr 1fr}
+  .benefit:nth-child(3){border-right:1px solid var(--line)}
+  .benefit:nth-child(even){border-right:0}
+  .chat-photo{min-height:360px}
+  .chat-photo img{object-position:center 18%}
+  .chat-ui{padding:24px}
+  .chat-ui h2{font-size:31px}
+  .consult{min-height:500px}
+  .consult img{object-position:70% center}
+  .consult:after{background:linear-gradient(180deg,rgba(43,27,19,.84) 0%,rgba(43,27,19,.55) 46%,rgba(43,27,19,.05) 78%)}
+  .consult-copy{width:100%;padding:35px 26px}
+  .consult-copy h2{font-size:31px}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#">♛ NIGHTON<small>PREMIUM RECRUIT</small></a>
+      <div class="navlinks">
+        <a href="#beginner">초보안내</a>
+        <a href="#conditions">근무조건</a>
+        <a href="#check">지원 전 확인</a>
+        <a class="btn gold nav-cta" href="#chat">💬 익명 1:1 문의</a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">처음이어도 괜찮아요 ♡</div>
+      <h1>조건 먼저 확인하고<br><span>편하게 문의하세요</span></h1>
+      <p>근무시간, 정산방식, 출퇴근 지원 여부 등 실제 조건을 먼저 확인하고 지원 여부를 결정하세요.</p>
+      <div class="hero-actions">
+        <a class="btn gold" href="#chat">익명으로 문의하기</a>
+        <a class="btn outline" href="#conditions">근무조건 보기</a>
+      </div>
+    </div>
+    <div class="hero-photo">
+      <img src="images/hero.jpg" alt="NIGHTON 메인 안내 이미지">
+    </div>
+  </div>
+</section>
+
+<section id="beginner">
+  <div class="wrap">
+    <h2 class="section-title">처음이어도 어렵지 않게</h2>
+    <p class="section-sub">모르는 부분부터 하나씩 확인한 뒤 결정할 수 있도록 안내합니다.</p>
+    <div class="cards">
+      <article class="card beginner">
+        <div class="card-image"><img src="images/beginner.jpg" alt="초보자 안내"></div>
+        <div class="card-copy">
+          <span class="pill">처음이라면</span>
+          <h3>초보자 안내</h3>
+          <p>업무 방식과 근무조건을 먼저 확인하고 부담 없이 결정할 수 있도록 안내합니다.</p>
+        </div>
+      </article>
+      <article class="card conditions" id="conditions">
+        <div class="card-image"><img src="images/conditions.jpg" alt="근무조건 안내"></div>
+        <div class="card-copy">
+          <span class="pill">조건 먼저 확인</span>
+          <h3>근무시간 · 정산 안내</h3>
+          <p>실제 적용되는 근무시간, 정산 시점, 출퇴근 지원 여부 등을 상담 전에 명확히 확인할 수 있습니다.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section id="check">
+  <div class="wrap">
+    <h2 class="section-title">지원 전에 확인할 수 있어요</h2>
+    <p class="section-sub">궁금한 조건을 먼저 확인한 뒤 다음 단계를 결정하세요.</p>
+    <div class="benefits">
+      <div class="benefit"><i>📋</i><b>조건 안내</b><span>근무조건 사전 확인</span></div>
+      <div class="benefit"><i>🔒</i><b>개인정보</b><span>첫 문의 최소 입력</span></div>
+      <div class="benefit"><i>⏱</i><b>근무시간</b><span>가능 시간 확인</span></div>
+      <div class="benefit"><i>🚗</i><b>출퇴근</b><span>지원 여부 확인</span></div>
+      <div class="benefit"><i>💰</i><b>정산방식</b><span>지급 시점 안내</span></div>
+      <div class="benefit"><i>💬</i><b>익명상담</b><span>조건 확인 후 결정</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="chat">
+  <div class="wrap">
+    <div class="chat-wrap">
+      <div class="chat-photo"><img src="images/chat.jpg" alt="익명 1대1 문의"></div>
+      <div class="chat-ui">
+        <h2>전화 없이 먼저 물어보세요.</h2>
+        <p>현재는 화면 데모입니다. 이후 Supabase를 연결하면 실제 관리자와 실시간 상담 기능으로 확장할 수 있습니다.</p>
+        <div class="window" id="window">
+          <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
+          <div class="bubble">어떤 조건이 가장 궁금하세요?</div>
+        </div>
+        <div class="input">
+          <input id="msg" placeholder="익명으로 질문을 입력하세요">
+          <button class="btn gold" onclick="sendMessage()">보내기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="consult">
+      <img src="images/consult.jpg" alt="하단 상담 안내">
+      <div class="consult-copy">
+        <h2>궁금한 점부터 편하게 물어보세요</h2>
+        <p>조건을 확인한 다음 지원 여부를 결정할 수 있습니다.</p>
+        <a class="btn gold" href="#chat">💬 익명 1:1 상담</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">© NIGHTON PREMIUM RECRUIT · 실제 운영 전 사업장 정보, 실제 근무조건, 개인정보처리방침 등을 정확하게 기재하세요.</div>
+</footer>
+
+<script>
+function sendMessage(){
+  const input=document.getElementById('msg');
+  const win=document.getElementById('window');
+  const text=input.value.trim();
+  if(!text)return;
+  const mine=document.createElement('div');
+  mine.className='bubble me';
+  mine.textContent=text;
+  win.appendChild(mine);
+  input.value='';
+  win.scrollTop=win.scrollHeight;
+  setTimeout(()=>{
+    const reply=document.createElement('div');
+    reply.className='bubble';
+    reply.textContent='문의 감사합니다. 실제 운영 시 관리자에게 실시간으로 전달되는 영역입니다.';
+    win.appendChild(reply);
+    win.scrollTop=win.scrollHeight;
+  },350);
+}
+document.getElementById('msg').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage()});
+</script>
+</body>
+</html>
