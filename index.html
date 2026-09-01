@@ -560,6 +560,29 @@ function addChatBubble(text, mine=false){
   win.scrollTop=win.scrollHeight;
 }
 
+
+
+function nightonSourceLabel(source){
+  const labels={
+    job_a:'구인사이트 A', job_b:'구인사이트 B', job_c:'구인사이트 C',
+    job_d:'구인사이트 D', job_e:'구인사이트 E', job_f:'구인사이트 F',
+    job_g:'구인사이트 G', instagram:'인스타그램', direct:'지인/직접유입'
+  };
+  return labels[source] || source || '지인/직접유입';
+}
+
+async function sendTelegramAlert(payload){
+  try{
+    if(!window.NIGHTON_SUPABASE) return;
+    const { error } = await window.NIGHTON_SUPABASE.functions.invoke('nighton-alert', {
+      body: payload
+    });
+    if(error) console.warn('NIGHTON telegram alert error:', error.message);
+  }catch(err){
+    console.warn('NIGHTON telegram alert exception:', err);
+  }
+}
+
 async function sendMessage(){
   const input=document.getElementById('msg');
   const button=input.nextElementSibling;
@@ -588,6 +611,12 @@ async function sendMessage(){
       accessToken=row.access_token;
       localStorage.setItem('nighton_conversation_id',conversationId);
       localStorage.setItem('nighton_access_token',accessToken);
+      await sendTelegramAlert({
+        visitor_id: tracking.visitorId,
+        anonymous_name: '익명 ' + tracking.visitorId,
+        source: nightonSourceLabel(tracking.source),
+        message: text
+      });
     }else{
       const {error}=await window.NIGHTON_SUPABASE.rpc('send_nighton_message',{
         p_conversation_id:conversationId,
@@ -595,6 +624,13 @@ async function sendMessage(){
         p_message:text
       });
       if(error) throw error;
+      const tracking=window.NIGHTON_TRACKING || {visitorId:'N-UNKNOWN',source:'direct'};
+      await sendTelegramAlert({
+        visitor_id: tracking.visitorId,
+        anonymous_name: '익명 ' + tracking.visitorId,
+        source: nightonSourceLabel(tracking.source),
+        message: text
+      });
     }
 
     addChatBubble(text,true);
