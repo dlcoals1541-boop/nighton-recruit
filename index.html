@@ -13,9 +13,9 @@ html{scroll-behavior:smooth}
   --gold:#d9a453; --gold2:#f1cf8d; --cream:#f6eadc; --muted:#78695e; --line:#eadbcc;
   --shadow:0 20px 55px rgba(62,37,22,.14)
 }
-body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:-.03em}
-img{display:block;max-width:100%}
-a{text-decoration:none;color:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:-.03em;overflow-x:hidden}
+img{display:block;max-width:100%;height:auto}
+a{text-decoration:none;color:inherit} h1,h2,h3,p,.income-main,.income-sub,.income-note{word-break:keep-all}
 .wrap{width:min(1180px,calc(100% - 32px));margin:auto}
 header{position:sticky;top:0;z-index:30;background:rgba(25,16,12,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08)}
 nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px}
@@ -31,6 +31,51 @@ nav{height:76px;display:flex;align-items:center;justify-content:space-between;ga
 .hero h1{font-size:62px;line-height:1.06;margin:15px 0 18px;letter-spacing:-.055em}
 .hero h1 span{color:#f0c67b}
 .hero p{font-size:18px;line-height:1.75;color:#eaded4;max-width:580px}
+
+.income-card{
+  margin-top:22px;
+  max-width:520px;
+  padding:17px 18px 16px;
+  border:1px solid rgba(241,207,141,.42);
+  border-radius:18px;
+  background:linear-gradient(135deg,rgba(18,11,8,.72),rgba(59,36,25,.58));
+  backdrop-filter:blur(12px);
+  box-shadow:0 16px 38px rgba(0,0,0,.16), inset 0 1px 0 rgba(255,255,255,.05);
+}
+.income-label{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  color:#e9c67f;
+  font-size:11px;
+  font-weight:950;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  margin-bottom:7px
+}
+.income-main{
+  color:#fff6e8;
+  font-size:clamp(24px,2.3vw,35px);
+  line-height:1.15;
+  font-weight:950;
+  letter-spacing:-.045em
+}
+.income-main strong{
+  color:#f1c66f;
+  font-size:1.08em
+}
+.income-sub{
+  margin-top:7px;
+  color:#f1e5d9;
+  font-size:14px;
+  font-weight:800
+}
+.income-note{
+  margin-top:7px;
+  color:#bfae9f;
+  font-size:11px;
+  line-height:1.5
+}
 .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
 .hero-photo{height:650px;position:relative;align-self:end;overflow:hidden;border-radius:34px 34px 0 0}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:74% center}
@@ -73,48 +118,241 @@ section{padding:62px 0}
 .consult-copy h2{font-size:40px;margin:0 0 12px}
 .consult-copy p{color:#f0e5dc;line-height:1.7}
 footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
+
+.mobile-sticky-cta{display:none}
+
 @media(max-width:900px){
+  body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+  .wrap{width:min(100% - 32px,680px)}
+  nav{height:62px}
+  .brand{font-size:15px;line-height:1.05}
+  .brand small{font-size:8px;margin-top:3px}
   .navlinks a:not(.nav-cta){display:none}
-  .hero-grid{grid-template-columns:1fr;min-height:auto;padding-top:50px;gap:16px}
-  .hero h1{font-size:49px}
-  .hero-photo{height:560px}
-  .hero-photo img{object-position:72% center}
-  .cards{grid-template-columns:1fr}
-  .benefits{grid-template-columns:repeat(3,1fr)}
-  .benefit:nth-child(3){border-right:0}
-  .benefit{border-bottom:1px solid var(--line)}
-  .chat-wrap{grid-template-columns:1fr}
-  .chat-photo{min-height:420px}
-  .consult-copy{width:70%}
+  .nav-cta{min-height:42px;padding:10px 13px;border-radius:12px;font-size:12px}
+
+  .hero{background:
+    radial-gradient(circle at 85% 85%,rgba(217,164,83,.11),transparent 34%),
+    linear-gradient(155deg,#1b110d,#2d1b13 58%,#1d120e)}
+  .hero-grid{
+    min-height:auto;
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:0;
+    padding-top:30px
+  }
+  .hero-grid>div:first-child{order:1}
+  .hero-photo{
+    order:2;
+    width:100%;
+    height:auto;
+    aspect-ratio:4/5;
+    margin-top:26px;
+    border-radius:24px 24px 0 0;
+    overflow:hidden
+  }
+  .hero-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:68% center
+  }
+  .hero-photo:after{
+    background:linear-gradient(180deg,rgba(29,18,13,.02) 55%,rgba(29,18,13,.26))
+  }
+  .eyebrow{font-size:17px;margin-bottom:8px}
+  .hero h1{
+    font-size:clamp(36px,9.6vw,48px);
+    line-height:1.08;
+    margin:8px 0 12px;
+    letter-spacing:-.055em
+  }
+  .hero p{
+    font-size:15px;
+    line-height:1.65;
+    margin:14px 0 0;
+    color:#dfd2c7
+  }
+  .income-card{
+    width:100%;
+    max-width:none;
+    margin-top:14px;
+    padding:15px 16px 14px;
+    border-radius:17px
+  }
+  .income-label{font-size:10px;margin-bottom:6px}
+  .income-main{
+    font-size:clamp(26px,7.2vw,34px);
+    line-height:1.12
+  }
+  .income-main strong{font-size:1.12em}
+  .income-sub{font-size:13px;margin-top:6px}
+  .income-note{font-size:10.5px;line-height:1.45;margin-top:6px}
+  .hero-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:9px;
+    margin-top:18px
+  }
+  .hero-actions .btn{
+    width:100%;
+    min-height:50px;
+    padding:12px 10px;
+    font-size:14px
+  }
+
+  section{padding:54px 0}
+  .section-title{font-size:clamp(28px,7vw,34px);line-height:1.18;margin-bottom:9px}
+  .section-sub{font-size:14px;line-height:1.6;margin-bottom:24px}
+  .cards{grid-template-columns:1fr;gap:18px}
+  .card{border-radius:21px}
+  .card-image{height:auto;aspect-ratio:4/5}
+  .card-image img{width:100%;height:100%}
+  .card.beginner .card-image img{object-fit:cover;object-position:center 12%}
+  .card.conditions .card-image{height:auto;aspect-ratio:3/4;background:#1d120e}
+  .card.conditions .card-image img{object-fit:contain;object-position:center}
+  .card-copy{padding:20px}
+  .card h3{font-size:26px;margin:10px 0 7px}
+  .card p{font-size:14px;line-height:1.6}
+
+  .benefits{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    background:transparent;
+    border:0;
+    border-radius:0;
+    overflow:visible
+  }
+  .benefit{
+    min-height:128px;
+    padding:18px 12px;
+    border:1px solid var(--line)!important;
+    border-radius:18px;
+    background:#fff;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center
+  }
+  .benefit i{font-size:26px}
+  .benefit b{font-size:14px;margin:8px 0 3px}
+  .benefit span{font-size:11px;line-height:1.35}
+
+  .chat-wrap{
+    display:flex;
+    flex-direction:column;
+    border-radius:23px
+  }
+  .chat-photo{
+    order:1;
+    min-height:0;
+    aspect-ratio:4/3
+  }
+  .chat-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 30%
+  }
+  .chat-ui{order:2;padding:23px}
+  .chat-ui h2{font-size:clamp(29px,7.5vw,34px);line-height:1.18}
+  .chat-ui>p{font-size:13px;line-height:1.6}
+  .window{height:225px;margin:16px 0}
+  .bubble{font-size:13px}
+  .input{gap:7px}
+  .input input{min-height:50px;font-size:15px}
+  .input .btn{min-height:50px;padding:12px 15px;font-size:14px}
+
+  .consult{
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:23px
+  }
+  .consult img{
+    position:relative;
+    width:100%;
+    height:auto;
+    aspect-ratio:16/10;
+    object-fit:cover;
+    object-position:68% center;
+    order:1
+  }
+  .consult:after{display:none}
+  .consult-copy{
+    order:2;
+    width:100%;
+    padding:24px 22px 25px;
+    color:var(--ink)
+  }
+  .consult-copy h2{font-size:clamp(29px,7.4vw,34px);line-height:1.18;margin-bottom:9px}
+  .consult-copy p{color:var(--muted);font-size:14px;line-height:1.6}
+  .consult-copy .btn{width:100%;min-height:50px;margin-top:8px}
+  footer{padding-bottom:32px}
+
+  .mobile-sticky-cta{
+    display:flex;
+    position:fixed;
+    left:12px;
+    right:12px;
+    bottom:calc(10px + env(safe-area-inset-bottom));
+    z-index:60;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 9px 9px 14px;
+    background:rgba(26,16,12,.94);
+    border:1px solid rgba(241,207,141,.28);
+    border-radius:18px;
+    backdrop-filter:blur(14px);
+    box-shadow:0 14px 36px rgba(0,0,0,.28)
+  }
+  .mobile-sticky-cta span{color:#f2e7dc;font-size:12px;font-weight:800}
+  .mobile-sticky-cta a{
+    flex:0 0 auto;
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:0 15px;
+    border-radius:13px;
+    background:linear-gradient(135deg,var(--gold2),var(--gold));
+    color:#25160d;
+    font-size:13px;
+    font-weight:950
+  }
 }
-@media(max-width:560px){
-  .wrap{width:calc(100% - 22px)}
-  nav{height:66px}.brand{font-size:16px}.nav-cta{padding:11px 13px;font-size:12px}
-  section{padding:46px 0}
-  .hero-grid{padding-top:38px}
-  .hero h1{font-size:40px}
-  .hero p{font-size:15px}
-  .hero-photo{height:450px;border-radius:24px 24px 0 0}
-  .hero-photo img{object-position:69% center}
-  .section-title{font-size:29px}
-  .card-image{height:390px}
-  .card.beginner .card-image img{object-position:center 12%}
-  .card.conditions .card-image{height:520px}
-  .card.conditions .card-image img{object-position:center 10%}
-  .card h3{font-size:25px}
-  .benefits{grid-template-columns:1fr 1fr}
-  .benefit:nth-child(3){border-right:1px solid var(--line)}
-  .benefit:nth-child(even){border-right:0}
-  .chat-photo{min-height:360px}
-  .chat-photo img{object-position:center 18%}
-  .chat-ui{padding:24px}
-  .chat-ui h2{font-size:31px}
-  .consult{min-height:500px}
-  .consult img{object-position:70% center}
-  .consult:after{background:linear-gradient(180deg,rgba(43,27,19,.84) 0%,rgba(43,27,19,.55) 46%,rgba(43,27,19,.05) 78%)}
-  .consult-copy{width:100%;padding:35px 26px}
-  .consult-copy h2{font-size:31px}
+
+@media(max-width:390px){
+  .wrap{width:calc(100% - 28px)}
+  .hero-grid{padding-top:26px}
+  .hero-actions{grid-template-columns:1fr}
+  .hero-photo{aspect-ratio:4/5;object-position:center}
+  .hero-photo img{object-position:66% center}
+  .section-title{font-size:28px}
+  .benefit{min-height:120px;padding:16px 8px}
+  .chat-ui{padding:20px}
+  .input{display:grid;grid-template-columns:1fr}
+  .input .btn{width:100%}
+  .mobile-sticky-cta span{font-size:11px}
 }
+
+@media(max-width:340px){
+  .wrap{width:calc(100% - 24px)}
+  .brand{font-size:14px}
+  .nav-cta{font-size:11px;padding:9px 10px}
+  .hero h1{font-size:34px}
+  .income-main{font-size:24px}
+  .benefits{gap:8px}
+  .benefit{min-height:116px}
+  .mobile-sticky-cta{left:8px;right:8px}
+  .mobile-sticky-cta span{display:none}
+  .mobile-sticky-cta a{width:100%}
+}
+
 </style>
 </head>
 <body>
@@ -139,13 +377,21 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
       <div class="eyebrow">처음이어도 괜찮아요 ♡</div>
       <h1>조건 먼저 확인하고<br><span>편하게 문의하세요</span></h1>
       <p>근무시간, 정산방식, 출퇴근 지원 여부 등 실제 조건을 먼저 확인하고 지원 여부를 결정하세요.</p>
+
+      <div class="income-card" aria-label="고수익 안내">
+        <div class="income-label">✦ PREMIUM INCOME</div>
+        <div class="income-main">월 <strong>1,000만원 이상</strong><br>고수익 가능</div>
+        <div class="income-sub">열심히 한 만큼 달라지는 수입</div>
+        <div class="income-note">근무일수·근무시간·조건에 따라 실제 수입은 달라질 수 있습니다.</div>
+      </div>
+
       <div class="hero-actions">
         <a class="btn gold" href="#chat">익명으로 문의하기</a>
         <a class="btn outline" href="#conditions">근무조건 보기</a>
       </div>
     </div>
     <div class="hero-photo">
-      <img src="images/hero.jpg" alt="NIGHTON 메인 안내 이미지">
+      <img src="images/hero.jpg" alt="NIGHTON 메인 안내 이미지" width="1536" height="1024" fetchpriority="high" decoding="async">
     </div>
   </div>
 </section>
@@ -156,7 +402,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
     <p class="section-sub">모르는 부분부터 하나씩 확인한 뒤 결정할 수 있도록 안내합니다.</p>
     <div class="cards">
       <article class="card beginner">
-        <div class="card-image"><img src="images/beginner.jpg" alt="초보자 안내"></div>
+        <div class="card-image"><img src="images/beginner.jpg" alt="초보자 안내" width="1024" height="1536" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <span class="pill">처음이라면</span>
           <h3>초보자 안내</h3>
@@ -164,7 +410,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
         </div>
       </article>
       <article class="card conditions" id="conditions">
-        <div class="card-image"><img src="images/conditions.jpg" alt="근무조건 안내"></div>
+        <div class="card-image"><img src="images/conditions.jpg" alt="근무조건 안내" width="1024" height="1536" loading="lazy" decoding="async"></div>
         <div class="card-copy">
           <span class="pill">조건 먼저 확인</span>
           <h3>근무시간 · 정산 안내</h3>
@@ -193,7 +439,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 <section id="chat">
   <div class="wrap">
     <div class="chat-wrap">
-      <div class="chat-photo"><img src="images/chat.jpg" alt="익명 1대1 문의"></div>
+      <div class="chat-photo"><img src="images/chat.jpg" alt="익명 1대1 문의" width="1024" height="1536" loading="lazy" decoding="async"></div>
       <div class="chat-ui">
         <h2>전화 없이 먼저 물어보세요.</h2>
         <p>현재는 화면 데모입니다. 이후 Supabase를 연결하면 실제 관리자와 실시간 상담 기능으로 확장할 수 있습니다.</p>
@@ -213,7 +459,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 <section>
   <div class="wrap">
     <div class="consult">
-      <img src="images/consult.jpg" alt="하단 상담 안내">
+      <img src="images/consult.jpg" alt="하단 상담 안내" width="1536" height="1024" loading="lazy" decoding="async">
       <div class="consult-copy">
         <h2>궁금한 점부터 편하게 물어보세요</h2>
         <p>조건을 확인한 다음 지원 여부를 결정할 수 있습니다.</p>
@@ -223,6 +469,12 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   </div>
 </section>
 </main>
+
+<div class="mobile-sticky-cta" aria-label="모바일 익명 문의 바로가기">
+  <span>조건이 궁금하신가요?</span>
+  <a href="#chat">💬 익명 문의하기</a>
+</div>
+
 
 <footer>
   <div class="wrap">© NIGHTON PREMIUM RECRUIT · 실제 운영 전 사업장 정보, 실제 근무조건, 개인정보처리방침 등을 정확하게 기재하세요.</div>
