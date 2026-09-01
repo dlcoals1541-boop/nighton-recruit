@@ -37,12 +37,18 @@ button{cursor:pointer}
 .filters{padding:14px;border-bottom:1px solid var(--line);display:grid;gap:8px}
 .filters-row{display:grid;grid-template-columns:1fr 130px;gap:8px}
 .search,select{height:42px;border-radius:10px;border:1px solid var(--line);background:#17110d;color:#eee;padding:0 12px;outline:none}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .stat{background:#17110d;border:1px solid var(--line);border-radius:12px;padding:11px}
 .stat b{display:block;font-size:18px;color:var(--gold2)} .stat span{font-size:11px;color:var(--muted)}
 .list{overflow:auto;flex:1}
 .conv{padding:14px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}
 .conv:hover,.conv.active{background:#1b140f}
+.conv.unanswered{border-left:3px solid #d5a85f;background:linear-gradient(90deg,rgba(213,168,95,.10),transparent 55%)}
+.conv.new-strong{box-shadow:inset 0 0 0 1px rgba(240,206,139,.18)}
+.conv-flags{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.flag-new,.flag-unanswered{font-size:9px;padding:4px 6px;border-radius:999px;font-weight:900;letter-spacing:.02em}
+.flag-new{background:#e4b568;color:#23160d}
+.flag-unanswered{background:#352315;color:#f0ce8b;border:1px solid rgba(240,206,139,.35)}
 .conv-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
 .conv-name{font-weight:850;font-size:14px}
 .badge{font-size:10px;padding:5px 8px;border-radius:999px;background:#2a2018;color:#e8c88e;border:1px solid var(--line)}
@@ -110,6 +116,7 @@ button{cursor:pointer}
           <input class="search" id="searchInput" placeholder="익명번호 / 유입경로 검색">
           <select id="filterStatus">
             <option value="all">전체 상태</option>
+            <option value="unanswered">미답변</option>
             <option value="new">신규문의</option>
             <option value="consulting">상담중</option>
             <option value="interview">면접예정</option>
@@ -120,6 +127,7 @@ button{cursor:pointer}
       </div>
       <div class="stats">
         <div class="stat"><b id="statNew">0</b><span>신규문의</span></div>
+        <div class="stat"><b id="statUnanswered">0</b><span>미답변</span></div>
         <div class="stat"><b id="statTotal">0</b><span>전체 상담</span></div>
       </div>
       <div class="list" id="conversationList"></div>
@@ -221,19 +229,40 @@ async function loadConversations(silent=false){
 function renderConversations(){
   const q=$('searchInput').value.trim().toLowerCase();
   const st=$('filterStatus').value;
+  const isUnanswered = c => c.last_sender === 'visitor';
+
   const list=conversations.filter(c=>{
-    const matchStatus=st==='all'||c.status===st;
+    const matchStatus =
+      st==='all' ||
+      (st==='unanswered' && isUnanswered(c)) ||
+      c.status===st;
+
     const hay=(c.visitor_id+' '+c.anonymous_name+' '+sourceLabel(c.source)+' '+(c.last_message||'')).toLowerCase();
     return matchStatus && (!q || hay.includes(q));
   });
+
   $('statNew').textContent=conversations.filter(c=>c.status==='new').length;
+  $('statUnanswered').textContent=conversations.filter(isUnanswered).length;
   $('statTotal').textContent=conversations.length;
-  $('conversationList').innerHTML=list.map(c=>`
-    <div class="conv ${selected?.id===c.id?'active':''}" data-id="${c.id}">
-      <div class="conv-head"><span class="conv-name">${esc(c.anonymous_name)}</span><span class="badge">${statusLabel(c.status)}</span></div>
+
+  $('conversationList').innerHTML=list.map(c=>{
+    const unanswered=isUnanswered(c);
+    const newStrong=c.status==='new';
+    return `
+    <div class="conv ${selected?.id===c.id?'active':''} ${unanswered?'unanswered':''} ${newStrong?'new-strong':''}" data-id="${c.id}">
+      <div class="conv-head">
+        <span class="conv-name">${esc(c.anonymous_name)}</span>
+        <span class="conv-flags">
+          ${newStrong?'<span class="flag-new">NEW</span>':''}
+          ${unanswered?'<span class="flag-unanswered">미답변</span>':''}
+          <span class="badge">${statusLabel(c.status)}</span>
+        </span>
+      </div>
       <div class="conv-meta">${esc(sourceLabel(c.source))} · ${fmt(c.updated_at||c.created_at)}</div>
       <div class="conv-last">${esc(c.last_message||'메시지 없음')}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
+
   document.querySelectorAll('.conv').forEach(el=>el.onclick=()=>selectConversation(el.dataset.id));
 }
 
