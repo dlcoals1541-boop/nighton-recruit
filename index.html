@@ -515,7 +515,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
       <div class="chat-photo"><img src="images/chat.jpg" alt="익명 1대1 문의" width="1024" height="1536" loading="lazy" decoding="async"></div>
       <div class="chat-ui">
         <h2>전화 없이 먼저 물어보세요.</h2>
-        <p>현재는 화면 데모입니다. 이후 Supabase를 연결하면 실제 관리자와 실시간 상담 기능으로 확장할 수 있습니다.</p>
+        <p>이름이나 전화번호 없이 먼저 문의하실 수 있습니다. 상담 내용은 익명 상담방에 안전하게 저장됩니다.</p>
         <div class="window" id="window">
           <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
           <div class="bubble">어떤 조건이 가장 궁금하세요?</div>
@@ -551,26 +551,67 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 </footer>
 
 <script>
-function sendMessage(){
-  const input=document.getElementById('msg');
+function addChatBubble(text, mine=false){
   const win=document.getElementById('window');
-  const text=input.value.trim();
-  if(!text)return;
-  const mine=document.createElement('div');
-  mine.className='bubble me';
-  mine.textContent=text;
-  win.appendChild(mine);
-  input.value='';
+  const bubble=document.createElement('div');
+  bubble.className='bubble'+(mine?' me':'');
+  bubble.textContent=text;
+  win.appendChild(bubble);
   win.scrollTop=win.scrollHeight;
-  setTimeout(()=>{
-    const reply=document.createElement('div');
-    reply.className='bubble';
-    reply.textContent='문의 감사합니다. 실제 운영 시 관리자에게 실시간으로 전달되는 영역입니다.';
-    win.appendChild(reply);
-    win.scrollTop=win.scrollHeight;
-  },350);
 }
-document.getElementById('msg').addEventListener('keydown',e=>{if(e.key==='Enter')sendMessage()});
+
+async function sendMessage(){
+  const input=document.getElementById('msg');
+  const button=input.nextElementSibling;
+  const text=input.value.trim();
+  if(!text || !window.NIGHTON_SUPABASE)return;
+
+  input.disabled=true;
+  button.disabled=true;
+
+  try{
+    let conversationId=localStorage.getItem('nighton_conversation_id');
+    let accessToken=localStorage.getItem('nighton_access_token');
+
+    if(!conversationId || !accessToken){
+      const tracking=window.NIGHTON_TRACKING || {visitorId:'N-UNKNOWN',source:'direct'};
+      const {data,error}=await window.NIGHTON_SUPABASE.rpc('start_nighton_conversation',{
+        p_visitor_id:tracking.visitorId,
+        p_anonymous_name:'익명 '+tracking.visitorId,
+        p_source:tracking.source,
+        p_message:text
+      });
+      if(error) throw error;
+      const row=Array.isArray(data)?data[0]:data;
+      if(!row?.conversation_id || !row?.access_token) throw new Error('상담방 생성 결과가 올바르지 않습니다.');
+      conversationId=row.conversation_id;
+      accessToken=row.access_token;
+      localStorage.setItem('nighton_conversation_id',conversationId);
+      localStorage.setItem('nighton_access_token',accessToken);
+    }else{
+      const {error}=await window.NIGHTON_SUPABASE.rpc('send_nighton_message',{
+        p_conversation_id:conversationId,
+        p_access_token:accessToken,
+        p_message:text
+      });
+      if(error) throw error;
+    }
+
+    addChatBubble(text,true);
+    input.value='';
+  }catch(err){
+    console.error('NIGHTON chat error:',err);
+    alert('문의 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+  }finally{
+    input.disabled=false;
+    button.disabled=false;
+    input.focus();
+  }
+}
+
+document.getElementById('msg').addEventListener('keydown',e=>{
+  if(e.key==='Enter' && !e.isComposing) sendMessage();
+});
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
