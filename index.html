@@ -551,14 +551,57 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 </footer>
 
 <script>
-function addChatBubble(text, mine=false){
+function addChatBubble(text, mine=false, messageId=''){
   const win=document.getElementById('window');
+  if(messageId && win.querySelector(`[data-message-id="${messageId}"]`)) return;
   const bubble=document.createElement('div');
   bubble.className='bubble'+(mine?' me':'');
   bubble.textContent=text;
+  if(messageId) bubble.dataset.messageId=messageId;
   win.appendChild(bubble);
   win.scrollTop=win.scrollHeight;
 }
+
+let NIGHTON_CHAT_POLL=null;
+let NIGHTON_CHAT_LOADED=false;
+
+async function loadNightonMessages(){
+  try{
+    if(!window.NIGHTON_SUPABASE) return;
+    const conversationId=localStorage.getItem('nighton_conversation_id');
+    const accessToken=localStorage.getItem('nighton_access_token');
+    if(!conversationId || !accessToken) return;
+
+    const {data,error}=await window.NIGHTON_SUPABASE.rpc('get_nighton_messages',{
+      p_conversation_id:conversationId,
+      p_access_token:accessToken
+    });
+    if(error){
+      console.warn('NIGHTON message sync error:',error.message);
+      return;
+    }
+
+    const rows=Array.isArray(data)?data:[];
+    for(const m of rows){
+      const mine=m.sender==='visitor';
+      addChatBubble(m.message,mine,m.id || '');
+    }
+    NIGHTON_CHAT_LOADED=true;
+  }catch(err){
+    console.warn('NIGHTON message sync exception:',err);
+  }
+}
+
+function startNightonChatPolling(){
+  loadNightonMessages();
+  if(NIGHTON_CHAT_POLL) clearInterval(NIGHTON_CHAT_POLL);
+  NIGHTON_CHAT_POLL=setInterval(loadNightonMessages,3000);
+}
+
+document.addEventListener('visibilitychange',()=>{
+  if(!document.hidden) loadNightonMessages();
+});
+window.addEventListener('focus',loadNightonMessages);
 
 
 
@@ -671,6 +714,8 @@ document.getElementById('msg').addEventListener('keydown',e=>{
   window.NIGHTON_TRACKING = { visitorId, source };
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   window.NIGHTON_SUPABASE = client;
+
+  setTimeout(startNightonChatPolling, 250);
 
   const visitKey = 'nighton_visit_' + location.pathname + '_' + source;
   if (!sessionStorage.getItem(visitKey)) {
