@@ -418,6 +418,175 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   }
 }
 
+
+/* ===== Conversion-first hero: chat is the product ===== */
+.hero.hero-chat-first{
+  background:
+    radial-gradient(circle at 82% 12%,rgba(218,166,87,.13),transparent 28%),
+    linear-gradient(135deg,#17100c,#2a1912 58%,#1a100c);
+}
+.hero-chat-grid{
+  min-height:calc(100svh - 76px);
+  display:grid;
+  grid-template-columns:.78fr 1.22fr;
+  align-items:center;
+  gap:34px;
+  padding-top:34px;
+  padding-bottom:34px;
+}
+.hero-copy-compact{align-self:center}
+.hero-copy-compact .trust-kicker{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:7px 10px;border-radius:999px;
+  border:1px solid rgba(240,198,123,.28);
+  background:rgba(255,255,255,.04);
+  color:#efd3a0;font-size:11px;font-weight:900;letter-spacing:.05em;
+}
+.hero-copy-compact h1{
+  font-size:clamp(42px,5vw,66px);
+  margin:14px 0 13px;
+  line-height:1.04;
+}
+.hero-copy-compact p{
+  margin:0;
+  font-size:16px;
+  line-height:1.65;
+  max-width:500px;
+}
+.hero-points{
+  display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;
+}
+.hero-point{
+  padding:8px 10px;border-radius:10px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.08);
+  color:#e8ddd4;font-size:11px;font-weight:800;
+}
+.hero-income-mini{
+  margin-top:18px;
+  color:#baa99c;
+  font-size:11px;
+  line-height:1.55;
+}
+.hero-chat-card{
+  background:rgba(23,14,10,.92);
+  border:1px solid rgba(240,198,123,.22);
+  border-radius:26px;
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+  overflow:hidden;
+  backdrop-filter:blur(14px);
+}
+.hero-chat-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  padding:18px 20px 15px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.hero-chat-title{
+  display:flex;align-items:center;gap:10px;
+}
+.hero-chat-title .chat-dot{
+  width:9px;height:9px;border-radius:50%;
+  background:#77c99a;
+  box-shadow:0 0 0 5px rgba(119,201,154,.10);
+}
+.hero-chat-title strong{display:block;font-size:16px}
+.hero-chat-title small{display:block;color:#ad9e92;font-size:10px;margin-top:3px}
+.hero-chat-badge{
+  color:#dfbd7b;
+  font-size:10px;
+  font-weight:900;
+  padding:6px 8px;
+  border:1px solid rgba(223,189,123,.25);
+  border-radius:999px;
+}
+.hero-chat-card .window{
+  height:clamp(250px,38vh,360px);
+  margin:16px 18px 12px;
+  background:#0f0a08;
+}
+.hero-chat-card .input{
+  padding:0 18px 18px;
+}
+.hero-chat-card .input input{
+  height:54px;
+}
+.hero-chat-card .input .btn{
+  min-width:92px;
+  height:54px;
+}
+.chat-privacy{
+  padding:0 20px 15px;
+  color:#8f8278;
+  font-size:10px;
+  line-height:1.5;
+}
+.after-hero-note{
+  padding:12px 0 0;
+  color:#8f7f73;
+  font-size:11px;
+  text-align:center;
+}
+#chat{scroll-margin-top:84px}
+
+@media(max-width:820px){
+  header{position:relative}
+  nav{height:64px}
+  .hero-chat-grid{
+    min-height:auto;
+    grid-template-columns:1fr;
+    gap:18px;
+    padding-top:18px;
+    padding-bottom:24px;
+  }
+  .hero-copy-compact{
+    text-align:left;
+  }
+  .hero-copy-compact .trust-kicker{font-size:10px}
+  .hero-copy-compact h1{
+    font-size:clamp(32px,8.7vw,42px);
+    margin:10px 0 9px;
+  }
+  .hero-copy-compact p{
+    font-size:13px;
+    line-height:1.55;
+  }
+  .hero-points{margin-top:12px;gap:6px}
+  .hero-point{font-size:10px;padding:6px 8px}
+  .hero-income-mini{display:none}
+  .hero-chat-card{border-radius:22px}
+  .hero-chat-head{padding:14px 15px 12px}
+  .hero-chat-card .window{
+    height:230px;
+    margin:12px 12px 10px;
+    padding:12px;
+  }
+  .hero-chat-card .input{
+    padding:0 12px 12px;
+    display:grid;
+    grid-template-columns:1fr 92px;
+  }
+  .hero-chat-card .input input{
+    height:50px;
+    font-size:14px;
+  }
+  .hero-chat-card .input .btn{
+    height:50px;
+    min-width:0;
+    padding:0 13px;
+  }
+  .chat-privacy{padding:0 14px 12px}
+  .mobile-floating-cta{display:none!important}
+}
+@media(max-width:390px){
+  .hero-chat-grid{padding-top:14px}
+  .hero-copy-compact h1{font-size:30px}
+  .hero-chat-card .window{height:210px}
+  .hero-point:nth-child(3){display:none}
+}
+
 </style>
 </head>
 <body>
@@ -429,47 +598,61 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
         <a href="#beginner">초보안내</a>
         <a href="#conditions">근무조건</a>
         <a href="#check">지원 전 확인</a>
-        <a class="btn gold nav-cta" href="#chat">💬 익명 1:1 문의</a>
+        <a class="btn gold nav-cta" href="#chat">💬 지금 익명 문의</a>
       </div>
     </nav>
   </div>
 </header>
 
 <main>
-<section class="hero">
-  <div class="wrap hero-grid">
-    <div>
-      <div class="eyebrow">처음이어도 괜찮아요 ♡</div>
-      <h1>조건 먼저 확인하고<br><span>편하게 문의하세요</span></h1>
-      <p>근무시간, 정산방식, 출퇴근 지원 여부 등 실제 조건을 먼저 확인하고 지원 여부를 결정하세요.</p>
+<section class="hero hero-chat-first" id="chat">
+  <div class="wrap hero-chat-grid">
+    <div class="hero-copy-compact">
+      <div class="trust-kicker">PRIVATE · 1:1 CONSULTATION</div>
+      <h1>처음이라도 부담 없이<br><span>익명으로 먼저 물어보세요</span></h1>
+      <p>NIGHTON은 근무조건을 먼저 확인하고 결정할 수 있는 익명 채용 상담 서비스입니다. 이름·전화번호 없이 바로 질문부터 시작할 수 있습니다.</p>
 
-      <div class="income-card" aria-label="고수익 안내">
-        <div class="income-label">✦ PREMIUM INCOME</div>
-        <div class="income-main">월 <strong>1,000만원 이상</strong><br>고수익 가능</div>
-        <div class="income-sub">열심히 한 만큼 달라지는 수입</div>
-        <div class="income-note">근무일수·근무시간·조건에 따라 실제 수입은 달라질 수 있습니다.</div>
+      <div class="hero-points" aria-label="상담 핵심 안내">
+        <span class="hero-point">🔒 개인정보 없이 시작</span>
+        <span class="hero-point">💬 익명 1:1 상담</span>
+        <span class="hero-point">✓ 조건 확인 후 결정</span>
       </div>
 
-      <div class="hero-actions">
-        <a class="btn gold" href="#chat">익명으로 문의하기</a>
-        <a class="btn outline hero-secondary" href="#conditions">근무조건 보기</a>
+      <div class="hero-income-mini">
+        근무일수·근무시간·조건에 따라 실제 수입은 달라질 수 있습니다.
       </div>
     </div>
-    <div class="hero-photo">
-      <img src="images/hero.jpg" alt="NIGHTON 메인 안내 이미지" width="1536" height="1024" fetchpriority="high" decoding="async">
-      <div class="hero-bridge">
-        <div class="hero-bridge-kicker">처음이어도 괜찮아요</div>
-        <strong>궁금한 조건부터 확인하고 결정하세요</strong>
-        <a href="#beginner">초보자 안내 보기 →</a>
+
+    <div class="hero-chat-card" aria-label="익명 1대1 문의">
+      <div class="hero-chat-head">
+        <div class="hero-chat-title">
+          <span class="chat-dot" aria-hidden="true"></span>
+          <div>
+            <strong>익명 1:1 상담</strong>
+            <small>개인정보 없이 먼저 상담할 수 있습니다.</small>
+          </div>
+        </div>
+        <span class="hero-chat-badge">PRIVATE</span>
       </div>
+
+      <div class="window" id="window" aria-live="polite">
+        <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
+        <div class="bubble">근무시간, 정산, 초보 가능 여부 등 궁금한 조건부터 물어보세요.</div>
+      </div>
+
+      <div class="input">
+        <input id="msg" autocomplete="off" inputmode="text" placeholder="궁금한 내용을 익명으로 물어보세요" aria-label="익명 문의 내용">
+        <button class="btn gold" onclick="sendMessage()">보내기</button>
+      </div>
+      <div class="chat-privacy">상담은 익명 ID로 시작됩니다. 필요한 개인정보는 상담 후 필요할 때만 안내받을 수 있습니다.</div>
     </div>
   </div>
 </section>
 
 <section id="beginner">
   <div class="wrap">
-    <h2 class="section-title">처음이어도 어렵지 않게</h2>
-    <p class="section-sub">모르는 부분부터 하나씩 확인한 뒤 결정할 수 있도록 안내합니다.</p>
+    <h2 class="section-title">문의 후, 필요한 정보만 확인하세요</h2>
+    <p class="section-sub">처음이라면 업무 방식과 조건을 아래에서 차근차근 확인할 수 있습니다.</p>
     <div class="cards">
       <article class="card beginner">
         <div class="card-image"><img src="images/beginner.jpg" alt="초보자 안내" width="1024" height="1536" loading="lazy" decoding="async"></div>
@@ -509,25 +692,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   </div>
 </section>
 
-<section id="chat">
-  <div class="wrap">
-    <div class="chat-wrap">
-      <div class="chat-photo"><img src="images/chat.jpg" alt="익명 1대1 문의" width="1024" height="1536" loading="lazy" decoding="async"></div>
-      <div class="chat-ui">
-        <h2>전화 없이 먼저 물어보세요.</h2>
-        <p>이름이나 전화번호 없이 먼저 문의하실 수 있습니다. 상담 내용은 익명 상담방에 안전하게 저장됩니다.</p>
-        <div class="window" id="window">
-          <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
-          <div class="bubble">어떤 조건이 가장 궁금하세요?</div>
-        </div>
-        <div class="input">
-          <input id="msg" placeholder="익명으로 질문을 입력하세요">
-          <button class="btn gold" onclick="sendMessage()">보내기</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <section>
   <div class="wrap">
