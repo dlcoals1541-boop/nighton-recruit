@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0806">
+<title>NIGHTON 관리자 상담</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{--bg:#0b0806;--panel:#15100c;--panel2:#1d150f;--line:rgba(222,180,112,.18);--gold:#d5a85f;--gold2:#f0ce8b;--cream:#f5ead9;--muted:#9f9185;--danger:#c75d5d;--ok:#67b88a}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#0b0806,#120d09);color:var(--cream);font-family:Inter,Pretendard,"Noto Sans KR",system-ui,-apple-system,sans-serif;min-height:100vh}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
+.login-wrap{min-height:100vh;display:grid;place-items:center;padding:24px}
+.login-card{width:min(420px,100%);background:rgba(23,17,13,.96);border:1px solid var(--line);border-radius:24px;padding:28px;box-shadow:0 24px 60px rgba(0,0,0,.35)}
+.brand{font-family:Georgia,serif;letter-spacing:.15em;color:var(--gold2);font-weight:800}
+.subbrand{font-size:10px;letter-spacing:.2em;color:#c7a66d;margin-top:4px}
+.login-card h1{font-size:24px;margin:24px 0 8px}
+.login-card p{color:var(--muted);font-size:13px;line-height:1.6}
+.field{margin-top:14px}
+.field label{display:block;font-size:12px;color:#cdbda9;margin-bottom:7px}
+.field input{width:100%;height:50px;border-radius:12px;border:1px solid var(--line);background:#0f0b08;color:#fff;padding:0 14px;outline:none}
+.field input:focus{border-color:var(--gold)}
+.primary{width:100%;height:50px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));color:#22150d;font-weight:900;margin-top:18px}
+.error{color:#ffaaaa;font-size:12px;margin-top:12px;min-height:18px}
+
+.app{min-height:100vh;display:grid;grid-template-rows:68px 1fr}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:rgba(11,8,6,.92);position:sticky;top:0;z-index:20}
+.top-left{display:flex;align-items:center;gap:14px}
+.top-title{font-weight:850}
+.top-actions{display:flex;gap:8px}
+.ghost{height:40px;padding:0 13px;border:1px solid var(--line);border-radius:10px;background:#17100c;color:#e8d8c4}
+.layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 68px)}
+.sidebar{border-right:1px solid var(--line);background:#0f0b08;display:flex;flex-direction:column;min-width:0}
+.filters{padding:14px;border-bottom:1px solid var(--line);display:grid;gap:8px}
+.filters-row{display:grid;grid-template-columns:1fr 130px;gap:8px}
+.search,select{height:42px;border-radius:10px;border:1px solid var(--line);background:#17110d;color:#eee;padding:0 12px;outline:none}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
+.stat{background:#17110d;border:1px solid var(--line);border-radius:12px;padding:11px}
+.stat b{display:block;font-size:18px;color:var(--gold2)} .stat span{font-size:11px;color:var(--muted)}
+.list{overflow:auto;flex:1}
+.conv{padding:14px;border-bottom:1px solid rgba(255,255,255,.05);cursor:pointer}
+.conv:hover,.conv.active{background:#1b140f}
+.conv-head{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.conv-name{font-weight:850;font-size:14px}
+.badge{font-size:10px;padding:5px 8px;border-radius:999px;background:#2a2018;color:#e8c88e;border:1px solid var(--line)}
+.conv-meta{font-size:11px;color:#9f9185;margin-top:6px}
+.conv-last{font-size:12px;color:#d7c9b8;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+.chat{display:grid;grid-template-rows:auto 1fr auto;min-width:0}
+.empty{display:grid;place-items:center;color:#8f8175;text-align:center;padding:30px}
+.chat-head{padding:14px 18px;border-bottom:1px solid var(--line);background:#120d09;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.chat-title{font-weight:900}
+.chat-sub{font-size:11px;color:var(--muted);margin-top:5px}
+.status-select{height:40px}
+.messages{overflow:auto;padding:20px;background:radial-gradient(circle at 50% 0%,rgba(115,76,36,.08),transparent 40%)}
+.msg{max-width:720px;margin-bottom:12px}
+.msg .bubble{display:inline-block;padding:11px 13px;border-radius:14px;line-height:1.5;font-size:13px;white-space:pre-wrap}
+.msg.visitor .bubble{background:#2a1d14;border:1px solid #4c3422}
+.msg.admin{text-align:right;margin-left:auto}
+.msg.admin .bubble{background:linear-gradient(135deg,#e7bd77,#c9954c);color:#28180d;font-weight:700}
+.time{font-size:10px;color:#7f746b;margin-top:4px}
+.composer{padding:12px 16px;border-top:1px solid var(--line);background:#0f0b08;display:grid;grid-template-columns:1fr auto;gap:10px}
+.composer textarea{resize:none;min-height:50px;max-height:140px;border-radius:12px;border:1px solid var(--line);background:#17110d;color:white;padding:13px;outline:none}
+.send{width:92px;border:0;border-radius:12px;background:linear-gradient(135deg,var(--gold2),var(--gold));font-weight:900;color:#24160d}
+.small-note{font-size:11px;color:#84786e}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{border-right:0}
+  .chat{position:fixed;inset:68px 0 0 0;background:var(--bg);z-index:30;display:none}
+  .chat.mobile-open{display:grid}
+  .back-mobile{display:inline-flex!important}
+}
+.back-mobile{display:none}
+</style>
+</head>
+<body>
+
+<section id="loginView" class="login-wrap">
+  <div class="login-card">
+    <div class="brand">NIGHTON</div>
+    <div class="subbrand">PREMIUM RECRUIT · ADMIN</div>
+    <h1>관리자 로그인</h1>
+    <p>등록된 관리자 계정만 상담 목록과 메시지를 확인할 수 있습니다.</p>
+    <div class="field"><label>이메일</label><input id="email" type="email" autocomplete="username"></div>
+    <div class="field"><label>비밀번호</label><input id="password" type="password" autocomplete="current-password"></div>
+    <button class="primary" id="loginBtn">로그인</button>
+    <div class="error" id="loginError"></div>
+  </div>
+</section>
+
+<section id="appView" class="app hidden">
+  <header class="topbar">
+    <div class="top-left">
+      <div><div class="brand">NIGHTON</div><div class="subbrand">ADMIN CONSULTATION</div></div>
+      <div class="top-title">익명 상담 관리</div>
+    </div>
+    <div class="top-actions">
+      <button class="ghost" id="refreshBtn">새로고침</button>
+      <button class="ghost" id="logoutBtn">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="filters">
+        <div class="filters-row">
+          <input class="search" id="searchInput" placeholder="익명번호 / 유입경로 검색">
+          <select id="filterStatus">
+            <option value="all">전체 상태</option>
+            <option value="new">신규문의</option>
+            <option value="consulting">상담중</option>
+            <option value="interview">면접예정</option>
+            <option value="completed">완료</option>
+          </select>
+        </div>
+        <div class="small-note">최신 문의 순으로 표시됩니다.</div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b id="statNew">0</b><span>신규문의</span></div>
+        <div class="stat"><b id="statTotal">0</b><span>전체 상담</span></div>
+      </div>
+      <div class="list" id="conversationList"></div>
+    </aside>
+
+    <main class="chat" id="chatPane">
+      <div class="empty" id="emptyState">
+        <div><b>상담을 선택하세요</b><br><span class="small-note">왼쪽 목록에서 익명 상담을 선택하면 대화가 표시됩니다.</span></div>
+      </div>
+
+      <div id="chatContent" class="hidden" style="display:contents">
+        <div class="chat-head">
+          <div>
+            <button class="ghost back-mobile" id="backBtn">← 목록</button>
+            <div class="chat-title" id="chatTitle"></div>
+            <div class="chat-sub" id="chatMeta"></div>
+          </div>
+          <select class="status-select" id="statusSelect">
+            <option value="new">신규문의</option>
+            <option value="consulting">상담중</option>
+            <option value="interview">면접예정</option>
+            <option value="completed">완료</option>
+          </select>
+        </div>
+        <div class="messages" id="messages"></div>
+        <div class="composer">
+          <textarea id="reply" placeholder="답변을 입력하세요"></textarea>
+          <button class="send" id="sendBtn">보내기</button>
+        </div>
+      </div>
+    </main>
+  </div>
+</section>
+
+<script>
+const SUPABASE_URL = 'https://engfrvqbsqgqdywpmnjf.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_r3aqk4JW-kIBByl3x933_Q_XciIJ9Z3';
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let conversations = [];
+let selected = null;
+let pollTimer = null;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+const sourceLabel = s => ({job_a:'구인사이트 A',job_b:'구인사이트 B',job_c:'구인사이트 C',job_d:'구인사이트 D',job_e:'구인사이트 E',job_f:'구인사이트 F',job_g:'구인사이트 G',instagram:'인스타그램',direct:'지인/직접유입'}[s] || s || '직접유입');
+const statusLabel = s => ({new:'신규문의',consulting:'상담중',interview:'면접예정',completed:'완료'}[s] || s);
+const fmt = d => new Date(d).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
+
+async function ensureAdmin(){
+  const {data:{user}} = await sb.auth.getUser();
+  if(!user) return false;
+  const {data,error} = await sb.rpc('is_nighton_admin');
+  return !error && data === true;
+}
+
+async function showApp(){
+  $('loginView').classList.add('hidden');
+  $('appView').classList.remove('hidden');
+  await loadConversations();
+  if(pollTimer) clearInterval(pollTimer);
+  pollTimer = setInterval(async()=>{
+    await loadConversations(true);
+    if(selected) await loadMessages(true);
+  }, 5000);
+}
+
+async function boot(){
+  if(await ensureAdmin()) showApp();
+}
+boot();
+
+$('loginBtn').onclick = async()=>{
+  $('loginError').textContent='';
+  const email=$('email').value.trim(), password=$('password').value;
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error){ $('loginError').textContent='로그인 실패: '+error.message; return; }
+  if(!(await ensureAdmin())){
+    await sb.auth.signOut();
+    $('loginError').textContent='관리자 권한이 없는 계정입니다.';
+    return;
+  }
+  showApp();
+};
+
+$('logoutBtn').onclick = async()=>{ await sb.auth.signOut(); location.reload(); };
+$('refreshBtn').onclick = async()=>{ await loadConversations(); if(selected) await loadMessages(); };
+$('filterStatus').onchange = renderConversations;
+$('searchInput').oninput = renderConversations;
+$('backBtn').onclick = ()=> $('chatPane').classList.remove('mobile-open');
+
+async function loadConversations(silent=false){
+  const {data,error} = await sb.rpc('admin_list_nighton_conversations');
+  if(error){ if(!silent) alert('상담목록 불러오기 실패: '+error.message); return; }
+  conversations = data || [];
+  renderConversations();
+}
+
+function renderConversations(){
+  const q=$('searchInput').value.trim().toLowerCase();
+  const st=$('filterStatus').value;
+  const list=conversations.filter(c=>{
+    const matchStatus=st==='all'||c.status===st;
+    const hay=(c.visitor_id+' '+c.anonymous_name+' '+sourceLabel(c.source)+' '+(c.last_message||'')).toLowerCase();
+    return matchStatus && (!q || hay.includes(q));
+  });
+  $('statNew').textContent=conversations.filter(c=>c.status==='new').length;
+  $('statTotal').textContent=conversations.length;
+  $('conversationList').innerHTML=list.map(c=>`
+    <div class="conv ${selected?.id===c.id?'active':''}" data-id="${c.id}">
+      <div class="conv-head"><span class="conv-name">${esc(c.anonymous_name)}</span><span class="badge">${statusLabel(c.status)}</span></div>
+      <div class="conv-meta">${esc(sourceLabel(c.source))} · ${fmt(c.updated_at||c.created_at)}</div>
+      <div class="conv-last">${esc(c.last_message||'메시지 없음')}</div>
+    </div>`).join('');
+  document.querySelectorAll('.conv').forEach(el=>el.onclick=()=>selectConversation(el.dataset.id));
+}
+
+async function selectConversation(id){
+  selected=conversations.find(c=>c.id===id);
+  if(!selected) return;
+  renderConversations();
+  $('emptyState').classList.add('hidden');
+  $('chatContent').classList.remove('hidden');
+  $('chatTitle').textContent=selected.anonymous_name;
+  $('chatMeta').textContent=`${sourceLabel(selected.source)} · ${selected.visitor_id} · 최초 ${fmt(selected.created_at)}`;
+  $('statusSelect').value=selected.status;
+  $('chatPane').classList.add('mobile-open');
+  await loadMessages();
+}
+
+async function loadMessages(silent=false){
+  if(!selected) return;
+  const {data,error} = await sb.rpc('admin_get_nighton_messages',{p_conversation_id:selected.id});
+  if(error){ if(!silent) alert('메시지 불러오기 실패: '+error.message); return; }
+  $('messages').innerHTML=(data||[]).map(m=>`
+    <div class="msg ${m.sender==='admin'?'admin':'visitor'}">
+      <div class="bubble">${esc(m.message)}</div>
+      <div class="time">${m.sender==='admin'?'관리자':'방문자'} · ${fmt(m.created_at)}</div>
+    </div>`).join('');
+  $('messages').scrollTop=$('messages').scrollHeight;
+}
+
+$('statusSelect').onchange = async()=>{
+  if(!selected) return;
+  const status=$('statusSelect').value;
+  const {error}=await sb.rpc('admin_update_nighton_status',{p_conversation_id:selected.id,p_status:status});
+  if(error){ alert('상태 변경 실패: '+error.message); return; }
+  selected.status=status;
+  await loadConversations(true);
+};
+
+async function sendReply(){
+  if(!selected) return;
+  const text=$('reply').value.trim();
+  if(!text) return;
+  $('sendBtn').disabled=true;
+  const {error}=await sb.rpc('admin_send_nighton_message',{p_conversation_id:selected.id,p_message:text});
+  $('sendBtn').disabled=false;
+  if(error){ alert('답변 전송 실패: '+error.message); return; }
+  $('reply').value='';
+  await loadMessages();
+  await loadConversations(true);
+}
+$('sendBtn').onclick=sendReply;
+$('reply').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!e.isComposing){e.preventDefault();sendReply();}});
+</script>
+</body>
+</html>
