@@ -1,0 +1,13 @@
+NIGHTON brand film update
+
+Added:
+- /videos/nighton-brand-film.mp4 (1080p web optimized)
+- /videos/nighton-brand-film-mobile.mp4 (720p mobile optimized)
+- /images/nighton-video-poster.jpg
+- /images/nighton-premium-logo.png
+
+Modified:
+- /index.html
+
+Important:
+The SEO package used as the base did not contain the older image assets referenced by index.html (for example beginner.jpg, conditions.jpg, consult.jpg and beginner guide images). Keep the existing /images files already in the GitHub repository when applying this update. Do not delete the repository before upload.

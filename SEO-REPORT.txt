@@ -1,0 +1,36 @@
+NIGHTON SEO OPTIMIZATION V1
+
+변경:
+- index.html: 메타데이터, canonical, OG/Twitter, WebSite/Organization JSON-LD, 정보 허브, FAQ, 내부링크, 신뢰 링크
+- admin.html: noindex/nofollow
+- beginner-guide.html: title/description/canonical/robots
+
+신규:
+- work-guide.html
+- work-hours.html
+- outfit-guide.html
+- payment-guide.html
+- faq.html
+- about.html
+- privacy.html
+- robots.txt
+- sitemap.xml
+- vercel.json
+
+기능 보존 정적 점검:
+- PASS: Supabase URL preserved
+- PASS: start RPC preserved
+- PASS: send RPC preserved
+- PASS: get messages preserved
+- PASS: Telegram function preserved
+- PASS: visitor id preserved
+- PASS: conversation id preserved
+- PASS: access token preserved
+- PASS: chat remains in hero
+- PASS: canonical set
+- PASS: JSON-LD set
+
+주의:
+- 브라우저/실제 Supabase/Telegram 네트워크 호출은 이 로컬 패키지 환경에서 실행 검증하지 않았습니다.
+- 실제 배포 후 nighton.kr에서 채팅/관리자/Telegram을 최종 실사용 테스트하세요.
+- privacy.html의 세부 개인정보 처리 항목/보유기간/문의처는 실제 운영 방식에 맞춰 최종 보완해야 합니다.
