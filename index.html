@@ -119,10 +119,14 @@ section{padding:62px 0}
 .consult-copy p{color:#f0e5dc;line-height:1.7}
 footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 
+
+.hero-bridge{display:none}
+.mobile-floating-cta{display:none}
+
 .mobile-sticky-cta{display:none}
 
 @media(max-width:900px){
-  body{padding-bottom:calc(78px + env(safe-area-inset-bottom))}
+  body{padding-bottom:calc(66px + env(safe-area-inset-bottom))}
   .wrap{width:min(100% - 32px,680px)}
   nav{height:62px}
   .brand{font-size:15px;line-height:1.05}
@@ -146,19 +150,49 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
     order:2;
     width:100%;
     height:auto;
-    aspect-ratio:4/5;
-    margin-top:26px;
-    border-radius:24px 24px 0 0;
-    overflow:hidden
+    aspect-ratio:3/2;
+    margin-top:22px;
+    border-radius:22px;
+    overflow:hidden;
+    position:relative;
+    box-shadow:0 16px 36px rgba(0,0,0,.18)
   }
   .hero-photo img{
     width:100%;
     height:100%;
     object-fit:cover;
-    object-position:68% center
+    object-position:72% center
   }
   .hero-photo:after{
-    background:linear-gradient(180deg,rgba(29,18,13,.02) 55%,rgba(29,18,13,.26))
+    background:linear-gradient(180deg,rgba(29,18,13,0) 42%,rgba(29,18,13,.18) 66%,rgba(29,18,13,.88) 100%);
+    z-index:1
+  }
+  .hero-bridge{
+    display:block;
+    position:absolute;
+    left:18px;
+    right:18px;
+    bottom:17px;
+    z-index:2;
+    color:#fff;
+    text-shadow:0 2px 12px rgba(0,0,0,.34)
+  }
+  .hero-bridge-kicker{
+    color:#efc77e;
+    font-size:12px;
+    font-weight:900;
+    margin-bottom:4px
+  }
+  .hero-bridge strong{
+    display:block;
+    font-size:17px;
+    line-height:1.35;
+    margin-bottom:6px
+  }
+  .hero-bridge a{
+    color:#f0cf93;
+    font-size:12px;
+    font-weight:900
   }
   .eyebrow{font-size:17px;margin-bottom:8px}
   .hero h1{
@@ -189,16 +223,28 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   .income-sub{font-size:13px;margin-top:6px}
   .income-note{font-size:10.5px;line-height:1.45;margin-top:6px}
   .hero-actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:9px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
     margin-top:18px
   }
   .hero-actions .btn{
     width:100%;
-    min-height:50px;
+    min-height:52px;
     padding:12px 10px;
     font-size:14px
+  }
+  .hero-actions .hero-secondary{
+    min-height:auto;
+    width:auto;
+    align-self:center;
+    padding:4px 6px;
+    border:0;
+    border-radius:0;
+    color:#d9c6b6;
+    font-size:13px;
+    text-decoration:underline;
+    text-underline-offset:4px
   }
 
   section{padding:54px 0}
@@ -293,51 +339,42 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   .consult-copy .btn{width:100%;min-height:50px;margin-top:8px}
   footer{padding-bottom:32px}
 
-  .mobile-sticky-cta{
-    display:flex;
-    position:fixed;
-    left:12px;
-    right:12px;
-    bottom:calc(10px + env(safe-area-inset-bottom));
-    z-index:60;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:9px 9px 9px 14px;
-    background:rgba(26,16,12,.94);
-    border:1px solid rgba(241,207,141,.28);
-    border-radius:18px;
-    backdrop-filter:blur(14px);
-    box-shadow:0 14px 36px rgba(0,0,0,.28)
-  }
-  .mobile-sticky-cta span{color:#f2e7dc;font-size:12px;font-weight:800}
-  .mobile-sticky-cta a{
-    flex:0 0 auto;
-    min-height:44px;
+
+  .mobile-sticky-cta{display:none!important}
+  .mobile-floating-cta{
     display:inline-flex;
+    position:fixed;
+    right:14px;
+    bottom:calc(14px + env(safe-area-inset-bottom));
+    z-index:70;
+    min-height:48px;
     align-items:center;
     justify-content:center;
-    padding:0 15px;
-    border-radius:13px;
+    padding:0 17px;
+    border-radius:999px;
     background:linear-gradient(135deg,var(--gold2),var(--gold));
     color:#25160d;
     font-size:13px;
-    font-weight:950
+    font-weight:950;
+    box-shadow:0 12px 28px rgba(0,0,0,.26);
+    border:1px solid rgba(255,255,255,.28)
   }
+
 }
 
 @media(max-width:390px){
   .wrap{width:calc(100% - 28px)}
   .hero-grid{padding-top:26px}
   .hero-actions{grid-template-columns:1fr}
-  .hero-photo{aspect-ratio:4/5;object-position:center}
-  .hero-photo img{object-position:66% center}
+  .hero-photo{aspect-ratio:3/2}
+  .hero-photo img{object-position:73% center}
+  .hero-bridge{left:15px;right:15px;bottom:14px}
+  .hero-bridge strong{font-size:16px}
   .section-title{font-size:28px}
   .benefit{min-height:120px;padding:16px 8px}
   .chat-ui{padding:20px}
   .input{display:grid;grid-template-columns:1fr}
   .input .btn{width:100%}
-  .mobile-sticky-cta span{font-size:11px}
 }
 
 @media(max-width:340px){
@@ -348,9 +385,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   .income-main{font-size:24px}
   .benefits{gap:8px}
   .benefit{min-height:116px}
-  .mobile-sticky-cta{left:8px;right:8px}
-  .mobile-sticky-cta span{display:none}
-  .mobile-sticky-cta a{width:100%}
+  .mobile-floating-cta{right:10px;bottom:calc(10px + env(safe-area-inset-bottom));min-height:46px;padding:0 15px;font-size:12px}
 }
 
 </style>
@@ -387,11 +422,16 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 
       <div class="hero-actions">
         <a class="btn gold" href="#chat">익명으로 문의하기</a>
-        <a class="btn outline" href="#conditions">근무조건 보기</a>
+        <a class="btn outline hero-secondary" href="#conditions">근무조건 보기</a>
       </div>
     </div>
     <div class="hero-photo">
       <img src="images/hero.jpg" alt="NIGHTON 메인 안내 이미지" width="1536" height="1024" fetchpriority="high" decoding="async">
+      <div class="hero-bridge">
+        <div class="hero-bridge-kicker">처음이어도 괜찮아요</div>
+        <strong>궁금한 조건부터 확인하고 결정하세요</strong>
+        <a href="#beginner">초보자 안내 보기 →</a>
+      </div>
     </div>
   </div>
 </section>
@@ -470,10 +510,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 </section>
 </main>
 
-<div class="mobile-sticky-cta" aria-label="모바일 익명 문의 바로가기">
-  <span>조건이 궁금하신가요?</span>
-  <a href="#chat">💬 익명 문의하기</a>
-</div>
+<a class="mobile-floating-cta" href="#chat" aria-label="익명 문의하기">💬 익명 문의</a>
 
 
 <footer>
