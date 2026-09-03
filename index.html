@@ -485,6 +485,11 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   font-size:11px;
   line-height:1.55;
 }
+.condition-actions{display:grid;gap:10px;margin-top:22px;max-width:430px}
+.condition-primary{min-height:56px;font-size:16px;text-decoration:none}
+.condition-secondary{display:flex;gap:9px;flex-wrap:wrap}
+.condition-secondary a{color:#d8c9bb;font-size:12px;font-weight:850;text-decoration:underline;text-underline-offset:4px;padding:5px 0}
+.chat-priority-note{padding:14px 18px 0;color:#b3a397;font-size:11px;line-height:1.55}
 .hero-chat-card{
   background:rgba(23,14,10,.92);
   border:1px solid rgba(240,198,123,.22);
@@ -570,6 +575,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
     font-size:13px;
     line-height:1.55;
   }
+  .condition-actions{max-width:none;margin-top:17px}.condition-primary{width:100%;min-height:54px}.condition-secondary{justify-content:center}
   .hero-points{margin-top:12px;gap:6px}
   .hero-point{font-size:10px;padding:6px 8px}
   .hero-income-mini{display:none}
@@ -907,19 +913,19 @@ header nav{
         <a href="#beginner">초보안내</a>
         <a href="#conditions">근무조건</a>
         <a href="#check">지원 전 확인</a>
-        <a class="btn gold nav-cta" href="#chat">💬 지금 익명 문의</a>
+        <a class="btn gold nav-cta" href="/condition-check">내 조건 알아보기</a>
       </div>
     </nav>
   </div>
 </header>
 
 <main>
-<section class="hero hero-chat-first" id="chat">
+<section class="hero hero-chat-first" id="home">
   <div class="wrap hero-chat-grid">
     <div class="hero-copy-compact">
-      <div class="trust-kicker">PRIVATE · 1:1 CONSULTATION</div>
-      <h1>NIGHTON 프리미엄 익명 채용 상담<br><span>처음이라도 부담 없이 먼저 물어보세요</span></h1>
-      <p>NIGHTON은 근무조건을 먼저 확인하고 결정할 수 있는 익명 채용 상담 서비스입니다. 이름·전화번호 없이 바로 질문부터 시작할 수 있습니다.</p>
+      <div class="trust-kicker">PRIVATE · CONDITION GUIDE</div>
+      <h1>내 상황에 맞는 조건부터<br><span>먼저 확인해 보세요</span></h1>
+      <p>간단한 6단계 선택으로 관심 지역과 중요 조건을 정리하고, 필요한 정보부터 확인할 수 있습니다. 이름이나 전화번호는 받지 않습니다.</p>
 
       <div class="hero-points" aria-label="상담 핵심 안내">
         <span class="hero-point">🔒 개인정보 없이 시작</span>
@@ -930,9 +936,14 @@ header nav{
       <div class="hero-income-mini">
         근무일수·근무시간·조건에 따라 실제 수입은 달라질 수 있습니다.
       </div>
+      <div class="condition-actions">
+        <a class="btn gold condition-primary" href="/condition-check" data-funnel="condition-start">내 조건 알아보기</a>
+        <div class="condition-secondary"><a href="#beginner">처음이세요?</a><a href="#guide">지역별·조건별 정보 보기</a></div>
+      </div>
     </div>
 
-    <div class="hero-chat-card" aria-label="익명 1대1 문의">
+    <div class="hero-chat-card" id="chat-panel" aria-label="익명 1대1 문의">
+      <div class="chat-priority-note">설문 없이 바로 상담할 수도 있습니다. 조건을 먼저 정리하면 관리자가 상황에 맞춰 더 빠르게 안내할 수 있어요.</div>
       <div class="hero-chat-head">
         <div class="hero-chat-title">
           <span class="chat-dot" aria-hidden="true"></span>
@@ -1094,14 +1105,14 @@ header nav{
       <div class="consult-copy">
         <h2>궁금한 점부터 편하게 물어보세요</h2>
         <p>조건을 확인한 다음 지원 여부를 결정할 수 있습니다.</p>
-        <a class="btn gold" href="#chat">💬 익명 1:1 상담</a>
+        <a class="btn gold" href="#chat-panel">💬 익명 1:1 상담</a>
       </div>
     </div>
   </div>
 </section>
 </main>
 
-<a class="mobile-floating-cta" href="#chat" aria-label="익명 문의하기">💬 익명 문의</a>
+<a class="mobile-floating-cta" href="/condition-check" aria-label="내 조건 알아보기">내 조건 알아보기</a>
 
 
 <footer>
@@ -1111,7 +1122,7 @@ header nav{
       <a href="/about">서비스 소개</a>
       <a href="/privacy">개인정보처리 안내</a>
       <a href="/faq">FAQ</a>
-      <a href="#chat">익명 문의</a>
+      <a href="#chat-panel">익명 문의</a>
     </nav>
   </div>
 </footer>
@@ -1180,6 +1191,20 @@ function nightonSourceLabel(source){
   return labels[source] || source || '지인/직접유입';
 }
 
+function nightonAnalytics(name,params={}){
+  if(typeof window.gtag==='function') window.gtag('event',name,params);
+}
+
+async function linkNightonProfile(conversationId){
+  const token=localStorage.getItem('nighton_survey_token');
+  const visitorId=localStorage.getItem('nighton_visitor_id');
+  if(!token||!visitorId||!conversationId||!window.NIGHTON_SUPABASE)return;
+  const {error}=await window.NIGHTON_SUPABASE.rpc('link_nighton_consultation_profile',{
+    p_visitor_id:visitorId,p_survey_token:token,p_conversation_id:conversationId
+  });
+  if(error) console.warn('NIGHTON profile link error:',error.message);
+}
+
 async function sendTelegramAlert(payload){
   try{
     if(!window.NIGHTON_SUPABASE) return;
@@ -1220,6 +1245,8 @@ async function sendMessage(){
       accessToken=row.access_token;
       localStorage.setItem('nighton_conversation_id',conversationId);
       localStorage.setItem('nighton_access_token',accessToken);
+      await linkNightonProfile(conversationId);
+      nightonAnalytics('anonymous_chat_created',{source:tracking.source});
       await sendTelegramAlert({
         visitor_id: tracking.visitorId,
         anonymous_name: '익명 ' + tracking.visitorId,
@@ -1280,6 +1307,10 @@ document.getElementById('msg').addEventListener('keydown',e=>{
   window.NIGHTON_TRACKING = { visitorId, source };
   const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   window.NIGHTON_SUPABASE = client;
+
+  document.querySelectorAll('[data-funnel="condition-start"]').forEach(el=>el.addEventListener('click',()=>nightonAnalytics('condition_check_start',{source})));
+  const existingConversation=localStorage.getItem('nighton_conversation_id');
+  if(existingConversation) setTimeout(()=>linkNightonProfile(existingConversation),300);
 
   setTimeout(startNightonChatPolling, 250);
 

@@ -27,6 +27,10 @@
   ],
   "headers": [
     {
+      "source": "/condition-check",
+      "headers": [{"key":"Cache-Control","value":"no-store"}]
+    },
+    {
       "source": "/admin.html",
       "headers": [
         {
