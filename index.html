@@ -441,17 +441,15 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   background:
     radial-gradient(circle at 82% 12%,rgba(218,166,87,.13),transparent 28%),
     linear-gradient(135deg,#17100c,#2a1912 58%,#1a100c);
-  padding:32px 0;
+  padding:0;
 }
 .hero-visual-stage{
   position:relative;
   width:100%;
-  height:clamp(650px,66vw,720px);
+  height:calc(100svh - 76px);
+  min-height:650px;
   overflow:hidden;
-  border:1px solid rgba(240,198,123,.25);
-  border-radius:26px;
   background:#120c09;
-  box-shadow:0 24px 70px rgba(0,0,0,.34);
 }
 .hero-background{
   position:absolute;
@@ -597,11 +595,11 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   header{position:relative}
   nav{height:64px}
   .nav-cta{display:none!important}
-  .hero.hero-chat-first{padding:18px 0 24px}
+  .hero.hero-chat-first{padding:0}
   .hero-visual-stage{
     height:auto;
+    min-height:0;
     aspect-ratio:1122/1402;
-    border-radius:22px;
   }
   .hero-background{
     object-fit:contain;
@@ -654,8 +652,6 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   .mobile-floating-cta{display:none!important}
 }
 @media(max-width:390px){
-  .hero.hero-chat-first{padding:14px 0 20px}
-  .hero-visual-stage{border-radius:20px}
   .hero-overlay-content{left:13px;right:13px;bottom:12px}
   .hero-action-note{font-size:11px}
   .condition-primary{min-height:50px;font-size:14px}
@@ -973,15 +969,13 @@ header nav{
 
 <main>
 <section class="hero hero-chat-first" id="home">
-  <div class="wrap">
-    <div class="hero-visual-stage">
-      <img class="hero-background" src="images/nighton-consult-manager.png?v=2" alt="원하는 시간과 지역 조건을 NIGHTON에서 상담하는 여성 매니저" width="1122" height="1402" decoding="async" fetchpriority="high">
-      <h1 class="sr-only">원하는 시간과 지역 조건을 먼저 확인하세요</h1>
-      <div class="hero-overlay-content">
-        <p class="hero-action-note">6가지 선택으로 내 조건을 먼저 정리해보세요.</p>
-        <a class="btn gold condition-primary" href="/condition-check" data-funnel="condition-start">내 조건 알아보기</a>
-        <div class="condition-secondary"><a href="#beginner">처음이세요?</a><a href="#guide">지역별·조건별 정보 보기</a></div>
-      </div>
+  <div class="hero-visual-stage">
+    <img class="hero-background" src="images/nighton-consult-manager.png?v=2" alt="원하는 시간과 지역 조건을 NIGHTON에서 상담하는 여성 매니저" width="1122" height="1402" decoding="async" fetchpriority="high">
+    <h1 class="sr-only">원하는 시간과 지역 조건을 먼저 확인하세요</h1>
+    <div class="hero-overlay-content">
+      <p class="hero-action-note">6가지 선택으로 내 조건을 먼저 정리해보세요.</p>
+      <a class="btn gold condition-primary" href="/condition-check" data-funnel="condition-start">내 조건 알아보기</a>
+      <div class="condition-secondary"><a href="#beginner">처음이세요?</a><a href="#guide">지역별·조건별 정보 보기</a></div>
     </div>
   </div>
 </section>
