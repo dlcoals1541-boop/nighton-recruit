@@ -436,7 +436,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 }
 
 
-/* ===== Conversion-first hero: chat is the product ===== */
+/* ===== Conversion-first hero and consultation visual ===== */
 .hero.hero-chat-first{
   background:
     radial-gradient(circle at 82% 12%,rgba(218,166,87,.13),transparent 28%),
@@ -489,6 +489,36 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 .condition-primary{min-height:56px;font-size:16px;text-decoration:none}
 .condition-secondary{display:flex;gap:9px;flex-wrap:wrap}
 .condition-secondary a{color:#d8c9bb;font-size:12px;font-weight:850;text-decoration:underline;text-underline-offset:4px;padding:5px 0}
+.hero-consult-visual{
+  width:100%;
+  max-width:620px;
+  justify-self:end;
+  overflow:hidden;
+  border:1px solid rgba(240,198,123,.25);
+  border-radius:26px;
+  background:#120c09;
+  box-shadow:0 24px 70px rgba(0,0,0,.34);
+}
+.hero-consult-visual img{
+  display:block;
+  width:100%;
+  height:auto;
+  max-height:690px;
+  object-fit:contain;
+}
+.private-chat-section{
+  padding:68px 0 72px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 16% 0,rgba(217,164,83,.10),transparent 30%),
+    linear-gradient(180deg,#1b110d,#25160f);
+  scroll-margin-top:84px;
+}
+.private-chat-head{max-width:760px;margin:0 auto 26px;text-align:center}
+.private-chat-kicker{color:#e7bd73;font-size:11px;font-weight:950;letter-spacing:.18em}
+.private-chat-head h2{margin:10px 0 9px;font-size:clamp(30px,4vw,43px);line-height:1.18}
+.private-chat-head p{margin:0;color:#cdbfb4;font-size:15px;line-height:1.7}
+.private-chat-section .hero-chat-card{width:min(880px,100%);margin:0 auto}
 .chat-priority-note{padding:14px 18px 0;color:#b3a397;font-size:11px;line-height:1.55}
 .hero-chat-card{
   background:rgba(23,14,10,.92);
@@ -579,6 +609,21 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
   .hero-points{margin-top:12px;gap:6px}
   .hero-point{font-size:10px;padding:6px 8px}
   .hero-income-mini{display:none}
+  .hero-consult-visual{
+    max-width:none;
+    justify-self:stretch;
+    margin-top:4px;
+    border-radius:22px;
+  }
+  .hero-consult-visual img{
+    width:100%;
+    max-height:none;
+    object-fit:contain;
+  }
+  .private-chat-section{padding:50px 0 56px}
+  .private-chat-head{margin-bottom:20px}
+  .private-chat-head h2{font-size:clamp(27px,7.4vw,34px)}
+  .private-chat-head p{font-size:13px;line-height:1.6}
   .hero-chat-card{border-radius:22px}
   .hero-chat-head{padding:14px 15px 12px}
   .hero-chat-card .window{
@@ -606,6 +651,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 @media(max-width:390px){
   .hero-chat-grid{padding-top:14px}
   .hero-copy-compact h1{font-size:30px}
+  .hero-consult-visual{margin-top:2px;border-radius:20px}
   .hero-chat-card .window{height:210px}
   .hero-point:nth-child(3){display:none}
 }
@@ -942,29 +988,8 @@ header nav{
       </div>
     </div>
 
-    <div class="hero-chat-card" id="chat-panel" aria-label="익명 1대1 문의">
-      <div class="chat-priority-note">설문 없이 바로 상담할 수도 있습니다. 조건을 먼저 정리하면 관리자가 상황에 맞춰 더 빠르게 안내할 수 있어요.</div>
-      <div class="hero-chat-head">
-        <div class="hero-chat-title">
-          <span class="chat-dot" aria-hidden="true"></span>
-          <div>
-            <strong>익명 1:1 상담</strong>
-            <small>개인정보 없이 먼저 상담할 수 있습니다.</small>
-          </div>
-        </div>
-        <span class="hero-chat-badge">PRIVATE</span>
-      </div>
-
-      <div class="window" id="window" aria-live="polite">
-        <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
-        <div class="bubble">근무시간, 정산, 초보 가능 여부 등 궁금한 조건부터 물어보세요.</div>
-      </div>
-
-      <div class="input">
-        <input id="msg" autocomplete="off" inputmode="text" placeholder="궁금한 내용을 익명으로 물어보세요" aria-label="익명 문의 내용">
-        <button class="btn gold" onclick="sendMessage()">보내기</button>
-      </div>
-      <div class="chat-privacy">상담은 익명 ID로 시작됩니다. 필요한 개인정보는 상담 후 필요할 때만 안내받을 수 있습니다.</div>
+    <div class="hero-consult-visual">
+      <img src="images/nighton-consult-manager.png" alt="NIGHTON에서 원하는 시간과 지역 조건을 상담하는 여성 매니저" width="1122" height="1402" decoding="async">
     </div>
   </div>
 </section>
@@ -991,6 +1016,41 @@ header nav{
       </video>
     </div>
     <p class="brand-film-note">재생 버튼을 누르면 음성과 배경음악이 함께 재생됩니다.</p>
+  </div>
+</section>
+
+<section class="private-chat-section" id="chat-panel" aria-labelledby="private-chat-title">
+  <div class="wrap">
+    <div class="private-chat-head">
+      <div class="private-chat-kicker">PRIVATE CONSULTATION</div>
+      <h2 id="private-chat-title">조건을 확인하셨다면, 익명으로 더 물어보세요</h2>
+      <p>이름이나 전화번호 없이 궁금한 내용부터 편하게 상담할 수 있습니다.</p>
+    </div>
+
+    <div class="hero-chat-card" aria-label="익명 1대1 문의">
+      <div class="chat-priority-note">설문 없이 바로 상담할 수도 있습니다. 조건을 먼저 정리하면 관리자가 상황에 맞춰 더 빠르게 안내할 수 있어요.</div>
+      <div class="hero-chat-head">
+        <div class="hero-chat-title">
+          <span class="chat-dot" aria-hidden="true"></span>
+          <div>
+            <strong>익명 1:1 상담</strong>
+            <small>개인정보 없이 먼저 상담할 수 있습니다.</small>
+          </div>
+        </div>
+        <span class="hero-chat-badge">PRIVATE</span>
+      </div>
+
+      <div class="window" id="window" aria-live="polite">
+        <div class="bubble">안녕하세요. 이름이나 전화번호 없이 먼저 문의하셔도 됩니다.</div>
+        <div class="bubble">근무시간, 정산, 초보 가능 여부 등 궁금한 조건부터 물어보세요.</div>
+      </div>
+
+      <div class="input">
+        <input id="msg" autocomplete="off" inputmode="text" placeholder="궁금한 내용을 익명으로 물어보세요" aria-label="익명 문의 내용">
+        <button class="btn gold" onclick="sendMessage()">보내기</button>
+      </div>
+      <div class="chat-privacy">상담은 익명 ID로 시작됩니다. 필요한 개인정보는 상담 후 필요할 때만 안내받을 수 있습니다.</div>
+    </div>
   </div>
 </section>
 
