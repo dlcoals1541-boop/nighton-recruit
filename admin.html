@@ -36,7 +36,7 @@ button{cursor:pointer}
 .layout{display:grid;grid-template-columns:360px 1fr;min-height:calc(100vh - 68px)}
 .sidebar{border-right:1px solid var(--line);background:#0f0b08;display:flex;flex-direction:column;min-width:0}
 .filters{padding:14px;border-bottom:1px solid var(--line);display:grid;gap:8px}
-.filters-row{display:grid;grid-template-columns:1fr 130px;gap:8px}
+.filters-row{display:grid;grid-template-columns:1fr 130px;gap:8px}.profile-filters{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
 .search,select{height:42px;border-radius:10px;border:1px solid var(--line);background:#17110d;color:#eee;padding:0 12px;outline:none}
 .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 14px;border-bottom:1px solid var(--line)}
 .stat{background:#17110d;border:1px solid var(--line);border-radius:12px;padding:11px}
@@ -55,13 +55,15 @@ button{cursor:pointer}
 .badge{font-size:10px;padding:5px 8px;border-radius:999px;background:#2a2018;color:#e8c88e;border:1px solid var(--line)}
 .conv-meta{font-size:11px;color:#9f9185;margin-top:6px}
 .conv-last{font-size:12px;color:#d7c9b8;margin-top:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.conv-profile{font-size:11px;color:#edcd92;margin-top:6px;font-weight:800}
 
-.chat{display:grid;grid-template-rows:auto 1fr auto;min-width:0}
+.chat{display:grid;grid-template-rows:auto auto 1fr auto;min-width:0}
 .empty{display:grid;place-items:center;color:#8f8175;text-align:center;padding:30px}
 .chat-head{padding:14px 18px;border-bottom:1px solid var(--line);background:#120d09;display:flex;justify-content:space-between;align-items:center;gap:12px}
 .chat-title{font-weight:900}
 .chat-sub{font-size:11px;color:var(--muted);margin-top:5px}
 .status-select{height:40px}
+.profile-card{margin:12px 18px 0;border:1px solid var(--line);border-radius:14px;background:#17110d;overflow:hidden}.profile-card summary{cursor:pointer;padding:13px 15px;font-weight:900;color:var(--gold2)}.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:0 15px 15px}.profile-item span{display:block;color:var(--muted);font-size:10px;margin-bottom:4px}.profile-item b{font-size:12px;line-height:1.45}.profile-empty{padding:0 15px 15px;color:var(--muted);font-size:12px}
 .messages{overflow:auto;padding:20px;background:radial-gradient(circle at 50% 0%,rgba(115,76,36,.08),transparent 40%)}
 .msg{max-width:720px;margin-bottom:12px}
 .msg .bubble{display:inline-block;padding:11px 13px;border-radius:14px;line-height:1.5;font-size:13px;white-space:pre-wrap}
@@ -79,6 +81,7 @@ button{cursor:pointer}
   .chat{position:fixed;inset:68px 0 0 0;background:var(--bg);z-index:30;display:none}
   .chat.mobile-open{display:grid}
   .back-mobile{display:inline-flex!important}
+  .profile-filters{grid-template-columns:1fr}.profile-card{margin:8px 12px 0}.profile-grid{grid-template-columns:1fr 1fr}.profile-card:not([open]){display:block}
 }
 .back-mobile{display:none}
 </style>
@@ -124,6 +127,11 @@ button{cursor:pointer}
             <option value="completed">완료</option>
           </select>
         </div>
+        <div class="profile-filters">
+          <select id="filterRegion"><option value="all">전체 지역</option><option value="sillim">신림</option><option value="gangnam">강남</option><option value="hongdae">홍대</option><option value="geondae">건대</option><option value="other">기타</option><option value="none">설문 없음</option></select>
+          <select id="filterExperience"><option value="all">전체 경험</option><option value="beginner">처음</option><option value="experienced">경험있음</option><option value="researching">정보탐색</option></select>
+          <select id="filterPriority"><option value="all">전체 중요조건</option><option value="income">수입</option><option value="hours">시간</option><option value="commute">출퇴근</option><option value="environment">환경</option><option value="safety">안전</option></select>
+        </div>
         <div class="small-note">최신 문의 순으로 표시됩니다.</div>
       </div>
       <div class="stats">
@@ -153,6 +161,7 @@ button{cursor:pointer}
             <option value="completed">완료</option>
           </select>
         </div>
+        <details class="profile-card" id="profileCard" open><summary>상담 프로필</summary><div id="profileBody"></div></details>
         <div class="messages" id="messages"></div>
         <div class="composer">
           <textarea id="reply" placeholder="답변을 입력하세요"></textarea>
@@ -176,6 +185,11 @@ const $ = id => document.getElementById(id);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 const sourceLabel = s => ({job_a:'구인사이트 A',job_b:'구인사이트 B',job_c:'구인사이트 C',job_d:'구인사이트 D',job_e:'구인사이트 E',job_f:'구인사이트 F',job_g:'구인사이트 G',instagram:'인스타그램',direct:'지인/직접유입'}[s] || s || '직접유입');
 const statusLabel = s => ({new:'신규문의',consulting:'상담중',interview:'면접예정',completed:'완료'}[s] || s);
+const regionLabel=s=>({sillim:'신림',gangnam:'강남',hongdae:'홍대',geondae:'건대',other:'기타'}[s]||s||'미입력');
+const experienceLabel=s=>({beginner:'초보',experienced:'경험있음',researching:'정보탐색'}[s]||s||'미입력');
+const priorityLabel=s=>({income:'수입',hours:'근무시간',commute:'출퇴근',environment:'근무환경',safety:'안전',flexibility:'자유일정',unsure:'미정'}[s]||s);
+const timeLabel=s=>({evening:'저녁부터', 'late-night':'늦은 밤',discuss:'협의 필요',undecided:'미정'}[s]||s||'미입력');
+const transportLabel=s=>({'ride-home':'퇴근 이동수단','own-car':'자차','public-transit':'대중교통',nearby:'가까운 지역',none:'상관없음'}[s]||s||'미입력');
 const fmt = d => new Date(d).toLocaleString('ko-KR',{month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
 
 async function ensureAdmin(){
@@ -217,11 +231,15 @@ $('loginBtn').onclick = async()=>{
 $('logoutBtn').onclick = async()=>{ await sb.auth.signOut(); location.reload(); };
 $('refreshBtn').onclick = async()=>{ await loadConversations(); if(selected) await loadMessages(); };
 $('filterStatus').onchange = renderConversations;
+$('filterRegion').onchange = renderConversations;
+$('filterExperience').onchange = renderConversations;
+$('filterPriority').onchange = renderConversations;
 $('searchInput').oninput = renderConversations;
 $('backBtn').onclick = ()=> $('chatPane').classList.remove('mobile-open');
 
 async function loadConversations(silent=false){
-  const {data,error} = await sb.rpc('admin_list_nighton_conversations');
+  let {data,error} = await sb.rpc('admin_list_nighton_conversations_v2');
+  if(error && /function|schema cache|does not exist/i.test(error.message||'')) ({data,error}=await sb.rpc('admin_list_nighton_conversations'));
   if(error){ if(!silent) alert('상담목록 불러오기 실패: '+error.message); return; }
   conversations = data || [];
   renderConversations();
@@ -230,6 +248,7 @@ async function loadConversations(silent=false){
 function renderConversations(){
   const q=$('searchInput').value.trim().toLowerCase();
   const st=$('filterStatus').value;
+  const region=$('filterRegion').value,experience=$('filterExperience').value,priority=$('filterPriority').value;
   const isUnanswered = c => c.last_sender === 'visitor';
 
   const list=conversations.filter(c=>{
@@ -239,7 +258,10 @@ function renderConversations(){
       c.status===st;
 
     const hay=(c.visitor_id+' '+c.anonymous_name+' '+sourceLabel(c.source)+' '+(c.last_message||'')).toLowerCase();
-    return matchStatus && (!q || hay.includes(q));
+    const matchRegion=region==='all'||(region==='none'&&!c.profile_region)||c.profile_region===region;
+    const matchExperience=experience==='all'||c.profile_experience===experience;
+    const matchPriority=priority==='all'||(c.profile_priorities||[]).includes(priority);
+    return matchStatus&&matchRegion&&matchExperience&&matchPriority&&(!q||hay.includes(q));
   });
 
   $('statNew').textContent=conversations.filter(c=>c.status==='new').length;
@@ -260,6 +282,7 @@ function renderConversations(){
         </span>
       </div>
       <div class="conv-meta">${esc(sourceLabel(c.source))} · ${fmt(c.updated_at||c.created_at)}</div>
+      <div class="conv-profile">${c.profile_region?esc([regionLabel(c.profile_region),experienceLabel(c.profile_experience),priorityLabel((c.profile_priorities||[])[0])].filter(Boolean).join(' · ')):'직접 상담 진입 · 설문정보 없음'}</div>
       <div class="conv-last">${esc(c.last_message||'메시지 없음')}</div>
     </div>`;
   }).join('');
@@ -276,8 +299,17 @@ async function selectConversation(id){
   $('chatTitle').textContent=selected.anonymous_name;
   $('chatMeta').textContent=`${sourceLabel(selected.source)} · ${selected.visitor_id} · 최초 ${fmt(selected.created_at)}`;
   $('statusSelect').value=selected.status;
+  renderProfile(selected);
   $('chatPane').classList.add('mobile-open');
   await loadMessages();
+}
+
+function renderProfile(c){
+  const body=$('profileBody');
+  if(!c.profile_region){body.innerHTML='<div class="profile-empty">직접 상담 진입 · 설문정보 없음</div>';return}
+  const rows=[['상담번호',c.anonymous_name],['성인 확인',c.profile_adult?'✓ 자기확인 완료':'미확인'],['관심 지역',regionLabel(c.profile_region)],['경험',experienceLabel(c.profile_experience)],['중요 조건',(c.profile_priorities||[]).map(priorityLabel).join(' · ')],['가능 시간',timeLabel(c.profile_available_time)],['출퇴근',transportLabel(c.profile_transport)],['유입 경로','내 조건 알아보기'],['설문 완료',fmt(c.profile_completed_at)]];
+  body.innerHTML=`<div class="profile-grid">${rows.map(([k,v])=>`<div class="profile-item"><span>${esc(k)}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+  if(matchMedia('(max-width:900px)').matches)$('profileCard').removeAttribute('open');else $('profileCard').setAttribute('open','');
 }
 
 async function loadMessages(silent=false){
