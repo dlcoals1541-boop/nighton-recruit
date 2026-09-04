@@ -446,7 +446,7 @@ footer{padding:28px 0 60px;color:#8a7d73;font-size:12px}
 .hero-visual-stage{
   position:relative;
   width:100%;
-  height:calc(100svh - 76px);
+  height:calc(100svh - 98px);
   min-height:650px;
   max-height:860px;
   overflow:hidden;
@@ -754,24 +754,26 @@ header nav{
 /* ===== NIGHTON premium header v2 ===== */
 header{
   background:
-    linear-gradient(180deg,rgba(11,7,5,.98),rgba(15,9,6,.94));
+    linear-gradient(180deg,rgba(3,5,8,.99),rgba(7,8,11,.96));
   border-bottom:1px solid rgba(218,171,96,.12);
   box-shadow:0 12px 28px rgba(0,0,0,.16);
 }
 header nav{
-  min-height:88px;
+  min-height:98px;
   height:auto;
-  padding:10px 0;
+  padding:8px 0;
   align-items:center;
 }
 .brand-logo{
-  width:clamp(330px,31vw,465px);
-  height:70px;
+  width:clamp(260px,23vw,320px);
+  height:auto;
+  aspect-ratio:1080/320;
   flex:0 1 auto;
 }
 .brand-logo img{
   width:100%;
-  height:100%;
+  height:auto;
+  aspect-ratio:1080/320;
   object-fit:contain;
   object-position:left center;
   filter:
@@ -787,22 +789,22 @@ header nav{
   justify-content:center;
 }
 @media(max-width:900px){
-  header nav{min-height:82px;padding:8px 0}
+  header nav{min-height:90px;padding:7px 0}
   .brand-logo{
-    width:clamp(280px,43vw,360px);
-    height:64px;
+    width:clamp(240px,31vw,280px);
+    height:auto;
   }
 }
 @media(max-width:700px){
   header nav{
-    min-height:78px;
-    padding:7px 0;
+    min-height:88px;
+    padding:6px 0;
     gap:8px;
   }
   .brand-logo{
-    width:min(59vw,245px);
-    min-width:205px;
-    height:60px;
+    width:min(72vw,280px);
+    min-width:220px;
+    height:auto;
   }
   .nav-cta{
     min-width:0;
@@ -813,11 +815,11 @@ header nav{
   }
 }
 @media(max-width:430px){
-  header nav{min-height:74px}
+  header nav{min-height:84px}
   .brand-logo{
-    width:min(58vw,230px);
-    min-width:188px;
-    height:57px;
+    width:min(76vw,260px);
+    min-width:210px;
+    height:auto;
   }
   .nav-cta{
     font-size:10px;
@@ -826,18 +828,18 @@ header nav{
 }
 @media(max-width:390px){
   .brand-logo{
-    width:min(56vw,208px);
-    min-width:178px;
-    height:54px;
+    width:min(78vw,250px);
+    min-width:205px;
+    height:auto;
   }
 }
 @media(max-width:360px){
   header nav{gap:5px}
   .brand-logo{
-    width:55vw;
-    min-width:164px;
-    max-width:188px;
-    height:50px;
+    width:min(78vw,230px);
+    min-width:195px;
+    max-width:none;
+    height:auto;
   }
   .nav-cta{
     font-size:9px;
@@ -974,7 +976,7 @@ header nav{
 <header>
   <div class="wrap">
     <nav>
-      <a class="brand brand-logo" href="#" aria-label="NIGHTON PREMIUM RECRUIT"><img src="images/nighton-premium-logo.png" alt="NIGHTON PREMIUM RECRUIT"></a>
+      <a class="brand brand-logo" href="/" aria-label="NIGHT ON 홈으로 이동"><img src="images/nighton-sunset-logo-header.png?v=1" alt="NIGHT ON, 해가 지면 NIGHT ON" width="1080" height="320" decoding="async"></a>
       <div class="navlinks">
         <a href="#beginner">초보안내</a>
         <a href="#conditions">근무조건</a>
