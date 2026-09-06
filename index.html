@@ -750,6 +750,39 @@ header nav{
   }
 }
 
+/* ===== NIGHT ON official header logo v3 ===== */
+header nav{min-height:88px;padding:7px 0}
+.brand-logo{
+  display:inline-flex;
+  align-items:center;
+  flex:0 1 auto;
+  width:clamp(240px,22vw,300px);
+  height:auto;
+  aspect-ratio:3/1;
+  line-height:0;
+}
+.brand-logo img{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:3/1;
+  object-fit:contain;
+  object-position:left center;
+  filter:none;
+}
+@media(max-width:900px){
+  header nav{min-height:80px}
+  .brand-logo{width:clamp(210px,30vw,240px)}
+}
+@media(max-width:700px){
+  header nav{min-height:70px;padding:5px 0;gap:8px}
+  .brand-logo{width:clamp(155px,48vw,190px);min-width:0}
+}
+@media(max-width:360px){
+  .brand-logo{width:clamp(150px,47vw,165px);min-width:0}
+}
+
 
 /* ===== NIGHTON premium header v2 ===== */
 header{
@@ -976,7 +1009,7 @@ header nav{
 <header>
   <div class="wrap">
     <nav>
-      <a class="brand brand-logo" href="/" aria-label="NIGHT ON 홈으로 이동"><img src="images/nighton-sunset-logo-header.png?v=1" alt="NIGHT ON, 해가 지면 NIGHT ON" width="1080" height="320" decoding="async"></a>
+      <a class="brand brand-logo" href="/" aria-label="NIGHT ON 홈으로 이동"><img src="images/nighton-logo-official.png?v=1" alt="NIGHT ON - 해가 지면, NIGHT ON." width="1536" height="512" decoding="async" fetchpriority="high"></a>
       <div class="navlinks">
         <a href="#beginner">초보안내</a>
         <a href="#conditions">근무조건</a>
