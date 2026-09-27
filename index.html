@@ -1,28 +1,164 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>NIGHTON | 회원제 콜방</title><meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#090b10">
-<style>
-*{box-sizing:border-box}body{margin:0;background:#090b10;color:#f7f7f8;font-family:Pretendard,"Noto Sans KR",system-ui,sans-serif;letter-spacing:-.03em}.wrap{width:min(560px,calc(100% - 28px));margin:auto}.brand{font-weight:950;letter-spacing:.18em}.brand span{color:#ffb84d}.muted{color:#9298a6}.login{min-height:100vh;display:grid;place-items:center;padding:28px 0}.panel{background:#11151d;border:1px solid #232a37;border-radius:28px;padding:28px;box-shadow:0 25px 80px #0008}.logo{text-align:center;font-size:28px;margin-bottom:6px}.sub{text-align:center;color:#9298a6;margin:0 0 28px}.field{width:100%;padding:16px;border:1px solid #2b3341;border-radius:14px;background:#0c1017;color:#fff;margin:7px 0;font-size:15px}.btn{width:100%;border:0;border-radius:14px;padding:16px;font-weight:900;font-size:15px;cursor:pointer;margin-top:9px}.primary{background:#ffb84d;color:#171006}.secondary{background:#1a202b;color:#fff;border:1px solid #303949}.demo{background:transparent;color:#ffbf5d;border:1px solid #745522}.tiny{text-align:center;font-size:12px;color:#697181;margin-top:16px}.app{display:none;min-height:100vh;padding-bottom:92px}.top{position:sticky;top:0;background:#090b10eF;backdrop-filter:blur(14px);border-bottom:1px solid #1d2330;z-index:4}.topin{height:64px;display:flex;align-items:center;justify-content:space-between}.badge{font-size:12px;background:#1b2330;border-radius:999px;padding:8px 11px}.switch{display:flex;gap:7px;padding:16px 0}.switch button{flex:1;padding:12px;border-radius:12px;border:1px solid #29313e;background:#111720;color:#adb4c1;font-weight:800}.switch button.on{background:#ffb84d;color:#171006;border-color:#ffb84d}.hero{padding:18px 0}.hero h1{font-size:28px;margin:4px 0}.hero p{margin:7px 0;color:#9298a6}.call{background:#121720;border:1px solid #252d3a;border-radius:20px;padding:18px;margin:12px 0}.calltop{display:flex;justify-content:space-between;gap:10px}.status{font-size:11px;font-weight:900;border-radius:999px;padding:6px 9px;background:#183222;color:#78e89b}.status.choosing{background:#39261b;color:#ffbd73}.call h3{margin:8px 0 4px;font-size:21px}.chips{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}.chip{background:#1d2430;color:#c8ced8;border-radius:9px;padding:7px 9px;font-size:12px}.note{font-size:13px;color:#9ba2ae;line-height:1.5}.row{display:flex;gap:8px}.row .btn{padding:13px}.outline{background:#1a202a;color:#fff;border:1px solid #303947}.danger{background:#33201c;color:#ffae96}.people{margin-top:12px;border-top:1px solid #252c37;padding-top:10px}.person{display:flex;justify-content:space-between;padding:8px 0;font-size:13px}.arrived{color:#79e79b}.fab{position:fixed;right:max(18px,calc((100vw - 560px)/2 + 18px));bottom:24px;width:58px;height:58px;border:0;border-radius:18px;background:#ffb84d;font-size:28px;font-weight:900}.modal{display:none;position:fixed;inset:0;background:#000b;z-index:10;padding:20px;align-items:flex-end}.sheet{width:min(560px,100%);margin:auto;background:#141a23;border:1px solid #303947;border-radius:24px;padding:20px}.sheet h2{margin-top:0}.sheet label{font-size:12px;color:#9ca4b1}.notice{background:#151d29;border:1px solid #283447;padding:12px;border-radius:12px;font-size:12px;color:#aeb7c5;margin-bottom:10px}
-</style></head>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>NIGHTON | 조판·정산 운영 OS</title>
+<meta name="theme-color" content="#050810">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="/nighton-v2.css">
+</head>
 <body>
-<section id="login" class="login"><div class="wrap"><div class="panel"><div class="logo brand">NIGHT<span>ON</span></div><p class="sub">승인된 회원만 이용하는 실시간 콜방</p>
-<input class="field" placeholder="아이디"><input class="field" type="password" placeholder="비밀번호"><button class="btn primary" onclick="alert('실제 로그인은 회원 DB 연결 단계에서 활성화됩니다.')">로그인</button><button class="btn secondary" onclick="alert('회원가입 · 관리자 승인 기능을 다음 단계에서 연결합니다.')">회원가입</button><button class="btn demo" onclick="enterDemo()">체험으로 들어가기</button><div class="tiny">체험 모드는 실제 콜/회원 데이터에 영향을 주지 않습니다.</div></div></div></section>
-<section id="app" class="app"><div class="top"><div class="wrap topin"><div class="brand">NIGHT<span>ON</span></div><div class="badge" id="roleBadge">체험 · 실장</div></div></div>
-<div class="wrap"><div class="switch"><button id="mgrBtn" class="on" onclick="setRole('manager')">실장 체험</button><button id="shopBtn" onclick="setRole('shop')">가게 체험</button></div>
-<div class="hero"><h1 id="title">실시간 콜방</h1><p id="desc">현재 모집 중인 콜을 확인하고 참여할 수 있습니다.</p></div>
-<div id="calls"></div></div><button id="fab" class="fab" onclick="openCreate()" style="display:none">＋</button></section>
-<div id="joinModal" class="modal"><div class="sheet"><h2>콜 참여</h2><label>참여 인원</label><input id="joinCount" class="field" type="number" min="1" value="2"><label>도착 예상</label><select id="eta" class="field"><option>5분</option><option selected>10분</option><option>15분</option><option>20분</option><option>30분</option></select><button class="btn primary" onclick="joinCall()">참여하기</button><button class="btn outline" onclick="closeModal('joinModal')">취소</button></div></div>
-<div id="createModal" class="modal"><div class="sheet"><h2>새 콜 등록</h2><label>가게</label><input id="shopName" class="field" value="NIGHTON 테스트 가게"><label>필요 인원</label><input id="need" class="field" type="number" min="1" value="3"><label>나이대</label><select id="age" class="field"><option>20대 초반</option><option selected>20대 중후반</option><option>30대</option><option>상관없음</option></select><label>특이사항</label><input id="memo" class="field" placeholder="예: 깔끔한 스타일 선호"><button class="btn primary" onclick="createCall()">콜 등록</button><button class="btn outline" onclick="closeModal('createModal')">취소</button></div></div>
-<script>
-let role='manager', selected=0;
-let data=[{id:1,shop:'하루방',need:3,age:'20대 중후반',memo:'깔끔한 스타일 선호',status:'open',people:[{name:'A실장',count:2,eta:'10분',arrived:false},{name:'B실장',count:3,eta:'20분',arrived:false}]},{id:2,shop:'테스트 라운지',need:2,age:'상관없음',memo:'빠른 도착 우선',status:'open',people:[]}];
-function enterDemo(){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';render()}
-function setRole(r){role=r;document.getElementById('mgrBtn').classList.toggle('on',r==='manager');document.getElementById('shopBtn').classList.toggle('on',r==='shop');document.getElementById('roleBadge').textContent='체험 · '+(r==='manager'?'실장':'가게');document.getElementById('title').textContent=r==='manager'?'실시간 콜방':'내 가게 콜';document.getElementById('desc').textContent=r==='manager'?'현재 모집 중인 콜을 확인하고 참여할 수 있습니다.':'내가 등록한 콜과 참여 실장을 관리합니다.';document.getElementById('fab').style.display=r==='shop'?'block':'none';render()}
-function total(c){return c.people.reduce((s,p)=>s+p.count,0)}
-function render(){let list=role==='shop'?data.filter(x=>x.shop==='NIGHTON 테스트 가게'):data;document.getElementById('calls').innerHTML=list.length?list.map(c=>`<article class="call"><div class="calltop"><div><span class="status ${c.status==='choosing'?'choosing':''}">${c.status==='choosing'?'초이스중':'모집중'}</span><h3>${c.shop}</h3></div><b>${c.need}명 필요</b></div><div class="chips"><span class="chip">${c.age}</span><span class="chip">참여 예정 ${total(c)}명</span><span class="chip">초과참여 허용</span></div><div class="note">${c.memo||'특이사항 없음'}</div><div class="people">${c.people.length?c.people.map(p=>`<div class="person"><span>${p.name} · ${p.count}명</span><span class="${p.arrived?'arrived':''}">${p.arrived?'● 도착':'약 '+p.eta}</span></div>`).join(''):'<div class="note">아직 참여한 실장이 없습니다.</div>'}</div>${actions(c)}</article>`).join(''):'<div class="notice">등록한 콜이 없습니다. 아래 + 버튼으로 체험 콜을 등록해보세요.</div>'}
-function actions(c){if(role==='manager')return c.status==='choosing'?'<button class="btn outline" disabled>현재 초이스 중입니다</button>':`<button class="btn primary" onclick="openJoin(${c.id})">참여하기</button>`;return `<div class="row"><button class="btn ${c.status==='choosing'?'outline':'primary'}" onclick="toggleChoice(${c.id})">${c.status==='choosing'?'다시 모집':'초이스중'}</button><button class="btn danger" onclick="finish(${c.id})">완료</button></div>`}
-function openJoin(id){selected=id;document.getElementById('joinModal').style.display='flex'}function closeModal(id){document.getElementById(id).style.display='none'}function openCreate(){document.getElementById('createModal').style.display='flex'}
-function joinCall(){let c=data.find(x=>x.id===selected);if(!c||c.status==='choosing'){alert('현재 초이스 중입니다. 새로운 참여가 제한되었습니다.');return}c.people.push({name:'나(체험 실장)',count:+document.getElementById('joinCount').value||1,eta:document.getElementById('eta').value,arrived:false});closeModal('joinModal');render()}
-function createCall(){data.unshift({id:Date.now(),shop:document.getElementById('shopName').value||'NIGHTON 테스트 가게',need:+document.getElementById('need').value||1,age:document.getElementById('age').value,memo:document.getElementById('memo').value,status:'open',people:[]});closeModal('createModal');render()}
-function toggleChoice(id){let c=data.find(x=>x.id===id);c.status=c.status==='choosing'?'open':'choosing';render()}function finish(id){data=data.filter(x=>x.id!==id);render()}
-</script></body></html>
+<section id="login" class="login">
+  <div class="login-card">
+    <div class="brand">NIGHT<b>ON</b></div>
+    <p class="subtitle">조판 · 자동정산 · 직원관리</p>
+    <input id="email" class="field" type="email" placeholder="이메일">
+    <input id="password" class="field" type="password" placeholder="비밀번호" onkeydown="if(event.key==='Enter')login()">
+    <button class="btn primary" onclick="login()">로그인</button>
+    <button class="btn ghost" onclick="enterDemo()">체험으로 들어가기</button>
+    <div id="loginError" class="error"></div>
+    <div class="hint">실제 운영 데이터는 승인된 회원만 접근할 수 있습니다.<br>체험 모드는 실제 데이터에 영향을 주지 않습니다.</div>
+  </div>
+</section>
+
+<section id="app" class="shell hidden">
+  <header class="topbar">
+    <div class="topin">
+      <div class="brand">NIGHT<b>ON</b></div>
+      <span id="demoBadge" class="demo-badge hidden">체험모드</span>
+      <div class="spacer"></div>
+      <div class="topstat">영업일 <strong id="bizDate"></strong></div>
+      <div class="topstat">오늘 매출 <strong id="topSales">0원</strong></div>
+      <button class="btn ghost" onclick="logout()">로그아웃</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="side">
+      <button class="navbtn active">오늘 조판</button>
+      <button class="navbtn">예약</button>
+      <button class="navbtn">고객</button>
+      <button class="navbtn">직원</button>
+      <button class="navbtn">매출·정산</button>
+      <button class="navbtn">문자</button>
+      <button class="navbtn">통계</button>
+      <button class="navbtn">설정</button>
+    </aside>
+
+    <main class="main">
+      <div class="kpis">
+        <div class="kpi"><span>오늘 총매출</span><strong id="kpiSales">0원</strong></div>
+        <div class="kpi"><span>진행 조판</span><strong id="kpiBoards">0건</strong></div>
+        <div class="kpi"><span>현재 손님</span><strong id="kpiGuests">0명</strong></div>
+        <div class="kpi"><span>미수금</span><strong id="kpiRecv">0원</strong></div>
+      </div>
+
+      <div class="section-head">
+        <div>
+          <h1>오늘 조판</h1>
+          <p>손님 입장부터 연장·추가·계산까지 한 화면에서 처리합니다.</p>
+        </div>
+        <div class="spacer"></div>
+        <button class="btn primary" onclick="openNew()">+ 새 조판</button>
+      </div>
+
+      <div class="tablewrap">
+        <table class="board-table">
+          <thead>
+            <tr><th>입장</th><th>손님</th><th>담당</th><th>상태</th><th>총금액</th><th>직원지급</th><th>마진</th><th>결제</th></tr>
+          </thead>
+          <tbody id="boardRows"></tbody>
+        </table>
+      </div>
+
+      <div id="mobileCards" class="mobilecards"></div>
+    </main>
+
+    <aside class="right">
+      <div class="card">
+        <h3>빠른 메뉴</h3>
+        <div class="quick">
+          <button class="btn primary" onclick="openNew()">새 조판</button>
+          <button class="btn ghost" onclick="closeDay()">오늘 마감</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>직원 현황</h3>
+        <div id="empList"></div>
+      </div>
+    </aside>
+  </div>
+
+  <button class="fab" onclick="openNew()">＋</button>
+
+  <nav class="mobilebar">
+    <button class="active">조판</button>
+    <button>예약</button>
+    <button>고객</button>
+    <button>정산</button>
+    <button>더보기</button>
+  </nav>
+</section>
+
+<div id="newModal" class="modal hidden">
+  <div class="sheet">
+    <h2>새 조판</h2>
+    <label class="label">손님명 / 별칭</label>
+    <input id="customerName" class="field" placeholder="예: 김민수">
+    <label class="label">전화번호</label>
+    <input id="customerPhone" class="field" inputmode="tel" placeholder="선택 입력">
+    <label class="label">인원</label>
+    <input id="guestCount" class="field" type="number" min="1" value="1">
+
+    <label class="label">담당 직원</label>
+    <div id="employeeChoices" class="choices"></div>
+
+    <label class="label">기본 코스</label>
+    <div id="productChoices" class="choices"></div>
+
+    <div class="sheet-actions">
+      <button class="btn ghost" onclick="closeModal('newModal')">취소</button>
+      <button class="btn primary" onclick="createBoard()">조판 시작</button>
+    </div>
+  </div>
+</div>
+
+<div id="detailModal" class="modal hidden">
+  <div class="sheet">
+    <h2 id="detailTitle">조판 상세</h2>
+    <div id="detailInfo"></div>
+    <label class="label">메뉴 / 연장 추가</label>
+    <div id="detailProducts" class="choices"></div>
+    <div class="sheet-actions">
+      <button class="btn ghost" onclick="closeModal('detailModal')">닫기</button>
+      <button class="btn gold" onclick="closeModal('detailModal');payBoard(currentBoard.id)">계산하기</button>
+    </div>
+  </div>
+</div>
+
+<div id="payModal" class="modal hidden">
+  <div class="sheet">
+    <h2>결제</h2>
+    <div class="card">
+      <h3>총 결제금액</h3>
+      <strong id="payAmount" style="font-size:28px">0원</strong>
+    </div>
+    <div class="choices">
+      <button class="choice" onclick="confirmPay('cash')">현금</button>
+      <button class="choice" onclick="confirmPay('card')">카드</button>
+      <button class="choice" onclick="confirmPay('transfer')">계좌</button>
+      <button class="choice" onclick="confirmPay('receivable','receivable')">미수</button>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn ghost" onclick="closeModal('payModal')">취소</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/nighton-v2.js"></script>
+<script>document.addEventListener('DOMContentLoaded',()=>{const e=document.getElementById('bizDate');if(e)e.textContent=businessDate()})</script>
+</body>
+</html>
